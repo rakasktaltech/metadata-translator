@@ -14,7 +14,7 @@ def display_change_settings(tr_obj):
         print(f'8) Business term relation output file absolute address: {tr_obj.business_term_relation_output_file}')
         print(f'9) Data object and term relation output file: {tr_obj.column_term_relation_output_file}')
         print(f'0) Return to main menu')
-        selection = input("Please select a setting to change or exit settings menu")
+        selection = input("Please select a setting to change or exit settings menu: ")
 
         match selection:
             case "0":
@@ -28,9 +28,9 @@ def display_change_settings(tr_obj):
             case "4":
                 tr_obj.set_addon("business", "suffix")
             case "5":
-                pass
+                tr_obj.set_option("duplication")
             case "6":
-                pass
+                tr_obj.set_option("description")
             case "7":
                 tr_obj.set_output_file("terms")
             case "8":
@@ -41,6 +41,7 @@ def display_change_settings(tr_obj):
                 print("\n" * 50)
                 print("Input not in range '0'-'9', please insert valid number")
 
+
 def display_menu(tr_obj):
     print("\n" * 50)
     while True:
@@ -50,7 +51,8 @@ def display_menu(tr_obj):
         print(f"Currently selected business glossary: ", tr_obj.business_glossary)
         print(f"Currently selected data glossary: ", tr_obj.data_glossary)
         print("#######################")
-        print("Select action from menu:")
+        print("Select action from menu below")
+        print("")
         print("1) Set business glossary file")
         print("2) Set data glossary file")
         print("3) View and change translation settings")
@@ -58,7 +60,7 @@ def display_menu(tr_obj):
         print("5) Exit")
         print("")
 
-        reply = input("Insert selection here:")
+        reply = input("Insert selection here: ")
 
         match reply:
             case "1":
@@ -68,12 +70,12 @@ def display_menu(tr_obj):
             case "3":
                 display_change_settings(tr_obj)
             case "4":
-                print("4 selected")
+                tr_obj.translate()
             case "5":
                 break
             case _:
                 print("\n" * 50)
-                print("Illegal input, try again")
+                print("Illegal input, try again!")
 
 
 def display_exit_message():
