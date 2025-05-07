@@ -20,6 +20,10 @@ ALGNE NR;ÄRISÕNASTIKU TERMIN;ANDMESÕNASTIKU TERMIN;Tabeli nimi;Välja nimi;Kommen
 57;kasutajakonto;konto omaniku kontotüüp;accounts;account_type;kontotüüp: 1 - eraisik, 2 - juriidiline isik, 3 -Riigi- või avaliku sektori asutus, 4 - Välismaa juriidiline isik;;
 58;kasutajakonto;taotleja konto kustutamise märge;accounts;is_deleted;kustutatud: 1 - jah, 0 - ei;;
 59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus
+59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus
+59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus
+59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus
+59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus
 60;kasutajakonto;kasutajakonto muutmise kuupäev;accounts;modified;muutmise kuupäev;;tehniline tunnus
 61;kasutajakonto;seos legent.id (seos jur isikuga);accounts;legent_id;seos legent.id;;tehniline tunnus
 62;kasutajakonto;kasutajakonto allkirjastamise õigus;accounts;is_signer;allkirjastaja: 1 - jah, 0 - ei;;Kas küsimus sellest, kas taotleja on allkirjastaja?
@@ -110,9 +114,9 @@ ALGNE NR;ÄRISÕNASTIKU TERMIN;ANDMESÕNASTIKU TERMIN;Tabeli nimi;Välja nimi;Kommen
 512;jur isiku andmed;juriidilise isiku email;legent;email;email;;Kelle andmed on tabelis legent?
 513;jur isiku andmed;suunakood;legent;phone_prefix;suunakood;;Kelle andmed on tabelis legent?
 514;jur isiku andmed;juriidilise isiku telefoninumber;legent;phone;telefoninumber;;Kelle andmed on tabelis legent?
-515;jur isiku andmed (jur isikute tüübid);taotleja kontotüüp;legent;account_type;kontotüüp;;Kelle andmed on tabelis legent?
+515;jur isiku andmed;taotleja kontotüüp;legent;account_type;kontotüüp;;Kelle andmed on tabelis legent?
 516;jur isiku andmed;juriidilise isiku andmete kustutamise märge;legent;is_deleted;kustutatud: 1 - jah, 0 - ei;kui ei ole seotud tegevusi;
 517;;;legent;created;loomise kuupäev;;tehniline tunnus
 518;;;legent;modified;muutmise kuupäev;;tehniline tunnus
-519;jur isiku andmed, staatus äriregstris;staatuse tähis;legent;status;staatuse tähis;;Kelle andmed on tabelis legent?
-520;jur isiku andmed, staatus äriregstris;staatuse tekst;legent;status_text;staatuse tekts;;Kelle andmed on tabelis legent?
+519;jur isiku andmed: staatus äriregstris;staatuse tähis;legent;status;staatuse tähis;;Kelle andmed on tabelis legent?
+520;jur isiku andmed: staatus äriregstris;staatuse tekst;legent;status_text;staatuse tekts;;Kelle andmed on tabelis legent?

@@ -1,6 +1,9 @@
 import os
 import csv
+import re
+
 import pandas as pd
+from shutil import ReadError
 
 
 def is_correct_input(file_name):
@@ -51,26 +54,42 @@ def is_correct_output(destination):
     return True
 
 
+def validate_dataframes(df_bg, df_dg):
+    pass
+
+
 class Translator:
 
-    data_term_duplicate_options = {1: "'null' after first occurrence", 2: "Add iterated number as suffix", 3: "Leave duplicates in"}
+    data_term_duplicate_options = {1: "'null' after first occurrence",
+                                   2: "Add iterated number as suffix",
+                                   3: "Leave duplicates in"}
     data_term_duplicate = 3
-    data_term_description_options = {1: "Database commentary", 2: "Data glossary compiler commentary", 3: "Database + compiler commentary"}
+    data_term_description_options = {1: "Database commentary",
+                                     2: "Data glossary compiler commentary",
+                                     3: "Database + compiler commentary"}
     data_term_description = 1
+    handle_technical_fields_options = {1: "Include technical and unused fields",
+                                       2: "Exclude technical and unused fields",
+                                       3: "Include technical, exclude unused"}
+    technical_fields = 1
     data_term_prefix = ""
     data_term_suffix = ""
     business_term_prefix = ""
     business_term_suffix = ""
-    business_term_relation_output_file = r'C:\Users\Administrator\btr.csv'
+    term_relation_output_file = r'C:\Users\Administrator\btr.csv'
     term_output_file = r'C:\Users\Administrator\term.csv'
-    column_term_relation_output_file = r'C:\Users\Administrator\obj_term_rel.csv'
+    column_term_relation_output_file = r'C:\Users\Administrator\col_term_rel.csv'
+    connection = "not specified"
+    owner = ""
+    color = "red"
+    schema = "brightspark" # TODO: väli ei peaks olema eeldefineeritud, vaid tulema failist
 
     def __init__(self):
         self.business_glossary = r'C:\Users\Administrator\PycharmProjects\hobby_projects\test_arisonastik.csv'
         self.data_glossary = r'C:\Users\Administrator\PycharmProjects\hobby_projects\test_andmekirjeldus.csv'
 
     def is_ready_for_translation(self):
-        file_attributes = [self.business_glossary, self.data_glossary, self.term_output_file, self.column_term_relation_output_file, self.business_term_relation_output_file]
+        file_attributes = [self.business_glossary, self.data_glossary, self.term_output_file, self.column_term_relation_output_file, self.term_relation_output_file]
 
         if ("none" in file_attributes) | ("" in file_attributes):
             print('One or more file name attribute missing, set them in the setting menu')
@@ -78,6 +97,10 @@ class Translator:
         if len(set(file_attributes)) != 5:
             print('Duplicate names detected in file names, please change them in settings menu')
             return False
+        if self.connection == "not specified":
+            print('Connection name not specified. Please provide a connection name')
+            return False
+
         return True
 
     def set_input_file(self, file_type):
@@ -96,7 +119,7 @@ class Translator:
         elif file_type == "terms":
             self.term_output_file = destination
         elif file_type == "business term relation":
-            self.business_term_relation_output_file = destination
+            self.term_relation_output_file = destination
         elif file_type == "object term relation":
             self.column_term_relation_output_file = destination
         print("")
@@ -130,6 +153,12 @@ class Translator:
                 for key, value in self.data_term_description_options.items():
                     print(f'{key}) {value}')
                 print(f'Current selection: {self.data_term_description}) {self.data_term_description_options[self.data_term_description]}')
+            elif option_category == "technical":
+                print("Technical and unused field options:")
+                for key, value in self.handle_technical_fields_options.items():
+                    print(f'{key}) {value}')
+                print(
+                    f'Current selection: {self.technical_fields}) {self.handle_technical_fields_options[self.technical_fields]}')
 
             selection = input("Enter selected category: ")
             if selection in ["1", "2", "3"]:
@@ -137,21 +166,172 @@ class Translator:
                     self.data_term_duplicate = int(selection)
                 if option_category == "description":
                     self.data_term_description = int(selection)
+                if option_category == "technical":
+                    self.technical_fields = int(selection)
                 print("Selection completed!")
                 return
             else:
                 print("Illegal selection, try again!")
+
+    def set_parameter(self, parameter):
+        answer = input(f"Insert {parameter} name: ")
+        if len(answer) > 40:
+            print("Input too long, please provide a parameter under 40 characters")
+            return
+        if parameter == "connection":
+            self.connection = answer
+        if parameter == "owner":
+            self.owner = answer
 
     def translate(self):
         if not self.is_ready_for_translation():
             print('Translation aborted')
             return
 
-        df_bg = pd.read_csv(self.business_glossary, delimiter=';', encoding='windows-1257')
-        df_dg = pd.read_csv(self.data_glossary, delimiter=';', encoding='windows-1257')
+        try:
+            df_bg = pd.read_csv(self.business_glossary, delimiter=';', encoding='windows-1257')
+            df_dg = pd.read_csv(self.data_glossary, delimiter=';', encoding='windows-1257')
+        except ReadError:
+            print('Unable to read file, aborting translation')
+            return
 
-        print(df_bg.head(5))
-        print(df_dg.head(5))
+        #TODO: Lisa kontroll, mis ütleks, kas kõik tõlkeks vajalikud read on dataframe's olemas
+
+        validate_dataframes(df_bg, df_dg)
+
+        #Specify structure of output files
+        columns_term = ['name', 'color', 'description', 'type', 'domain', 'owner']
+        columns_col_term_rel = ['connection', 'schema', 'object', 'column', 'term']
+        columns_term_rel = ['sourceName', 'relation', 'targetName']
+
+        #Create dataframes for output
+        df_term = pd.DataFrame(columns = columns_term)
+        df_col_term_rel = pd.DataFrame(columns = columns_col_term_rel)
+        df_term_rel = pd.DataFrame(columns = columns_term_rel)
+        duplicates_dict = {}
+
+        #Loop over data glossary rows
+        for index, row in df_dg.iterrows():
+            #Resolve duplicate entry resolution option selection
+
+            term_name = ""
+
+            if str(row['ANDMESÕNASTIKU TERMIN']) in df_term['name'].values:
+                if self.data_term_duplicate == 1:
+                    term_name = ""
+                if self.data_term_duplicate == 2:
+                    if str(row['ANDMESÕNASTIKU TERMIN']) not in duplicates_dict:
+                        duplicates_dict[str(row['ANDMESÕNASTIKU TERMIN'])] = 2
+                        term_name = self.data_term_prefix + str(row['ANDMESÕNASTIKU TERMIN']) + self.data_term_suffix + "_2"
+                    else:
+                        term_name = self.data_term_prefix + str(row['ANDMESÕNASTIKU TERMIN']) + self.data_term_suffix + "_" + duplicates_dict.get(str(row['ANDMESÕNASTIKU TERMIN']))
+                        duplicates_dict[str(row['ANDMESÕNASTIKU TERMIN'])] = duplicates_dict[str(row['ANDMESÕNASTIKU TERMIN'])] + 1
+
+            else:
+                term_name = self.data_term_prefix + str(row['ANDMESÕNASTIKU TERMIN']) + self.data_term_suffix
 
 
+            #Resolve technical field inclusion option selection
+            if (
+                    self.technical_fields == 2 and
+                    re.search(r"ei ole kasutuses", str(row['KOOSTAMISE MÄRKUSED']), re.IGNORECASE) or
+                    re.search(r"tehniline tunnus", str(row['KOOSTAMISE MÄRKUSED']), re.IGNORECASE)
+            ):
+                continue
 
+            if (
+                    self.technical_fields == 3 and
+                    re.search(r"ei ole kasutuses", str(row['KOOSTAMISE MÄRKUSED']), re.IGNORECASE)
+            ):
+                continue
+
+            description = ""
+            row_type = "Term"
+
+            #Resolve description option selection
+            match self.data_term_description:
+                case 1:
+                    description = str(row['Kommentaarid'])
+                case 2:
+                    description = str(row['KOOSTAMISE MÄRKUSED'])
+                case 3:
+                    description = str(row['Kommentaarid']) + " "
+
+            term_row = pd.DataFrame([{
+                'name': term_name,
+                'color': self.color,
+                'description': description,
+                'type': row_type,
+                'domain': "",
+                'owner': self.owner
+            }])
+
+            df_term = pd.concat([df_term, term_row], ignore_index=True)
+
+            col_term_rel_row = pd.DataFrame([{
+                'connection': self.connection,
+                'schema': self.schema,
+                'object': str(row['Tabeli nimi']),
+                'column': str(row['Välja nimi']),
+                'term': term_name
+            }])
+
+            df_col_term_rel = pd.concat([df_col_term_rel, col_term_rel_row], ignore_index=True)
+
+            source_term_list = str(row['ÄRISÕNASTIKU TERMIN']).split(':')
+            for source_term in source_term_list:
+
+                term_relation_row = pd.DataFrame([{
+                    'sourceName': self.data_term_prefix + str(source_term) + self.data_term_suffix,
+                    'relation': "Related to",
+                    'targetName': term_name
+                }])
+
+                df_term_rel = pd.concat([df_term_rel, term_relation_row], ignore_index=True)
+
+        #Loop over business glossary
+        #TODO: kontrolli üle ärisõnastiku mõistete lisamise loogika - kas ainult siis kui seost ei ole, või iga kord kui ka on seos?
+        #      Korduste puhul (tulenevalt seosest) välistada uue mõiste lisamine, seeasemel lisatakse ainult seos
+        for index, row in df_bg.iterrows():
+            row_type = "Concept"
+            term_name = self.business_term_prefix + str(row['MÕISTE_ET']) + self.business_term_suffix
+            target_name = self.business_term_prefix + str(row['SEOTUD MÕISTE']) + self.business_term_suffix
+
+            match row['SEOSE TÜÜP']:
+                case "KUULUB GRUPPI":
+                    continue
+                case "SEOTUD":
+                    relation = "Related to"
+                case "LAIEM":
+                    relation = "Child of"
+                case "KITSAM":
+                    relation = "Parent of"
+                case _:
+                    relation = str(row['SEOSE TÜÜP'])
+
+            term_row = pd.DataFrame([{
+                'name': term_name,
+                'color': self.color,
+                'description': str(row['MÄÄRATLUS VÕI SELGITUS_ET']),
+                'type': row_type,
+                'domain': "",
+                'owner': self.owner
+            }])
+
+            df_term = pd.concat([df_term, term_row], ignore_index=True)
+
+            if row['SEOSE TÜÜP']:
+                term_relation_row = pd.DataFrame([{
+                    'sourceName': term_name,
+                    'relation': relation,
+                    'targetName': target_name
+                }])
+
+                df_term_rel = pd.concat([df_term_rel, term_relation_row], ignore_index=True)
+
+        df_term.to_csv(self.term_output_file, index=False)
+        df_col_term_rel.to_csv(self.column_term_relation_output_file, index=False)
+        df_term_rel.to_csv(self.term_relation_output_file, index=False)
+
+        print("\n" * 50)
+        print("Translation successful, files ready for use!")

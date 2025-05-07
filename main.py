@@ -10,9 +10,12 @@ def display_change_settings(tr_obj):
         print(f'4) Business term suffix added by translation: {tr_obj.business_term_suffix}')
         print(f'5) Data term duplication option selected: {tr_obj.data_term_duplicate_options.get(tr_obj.data_term_duplicate)}')
         print(f'6) Data term description option selected: {tr_obj.data_term_description_options.get(tr_obj.data_term_description)}')
-        print(f'7) Term output file absolute address: {tr_obj.term_output_file}')
-        print(f'8) Business term relation output file absolute address: {tr_obj.business_term_relation_output_file}')
-        print(f'9) Data object and term relation output file: {tr_obj.column_term_relation_output_file}')
+        print(f'7) Technical and unused field option selected: {tr_obj.handle_technical_fields_options.get(tr_obj.technical_fields)} ')
+        print(f'8) Term output file absolute address: {tr_obj.term_output_file}')
+        print(f'9) Business term relation output file absolute address: {tr_obj.term_relation_output_file}')
+        print(f'10) Data object and term relation output file: {tr_obj.column_term_relation_output_file}')
+        print(f'11) Connection name: {tr_obj.connection}')
+        print(f'12) Owner name: {tr_obj.owner}')
         print(f'0) Return to main menu')
         selection = input("Please select a setting to change or exit settings menu: ")
 
@@ -32,11 +35,17 @@ def display_change_settings(tr_obj):
             case "6":
                 tr_obj.set_option("description")
             case "7":
-                tr_obj.set_output_file("terms")
+                tr_obj.set_option("technical")
             case "8":
-                tr_obj.set_output_file("business term relation")
+                tr_obj.set_output_file("terms")
             case "9":
+                tr_obj.set_output_file("business term relation")
+            case "10":
                 tr_obj.set_output_file("object term relation")
+            case "11":
+                tr_obj.set_parameter("connection")
+            case "12":
+                tr_obj.set_parameter("owner")
             case _:
                 print("\n" * 50)
                 print("Input not in range '0'-'9', please insert valid number")
@@ -89,3 +98,4 @@ if __name__ == '__main__':
     trans = translator.Translator()
     display_menu(trans)
     display_exit_message()
+    exit(0)
