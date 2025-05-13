@@ -63,11 +63,11 @@ class Translator:
     data_term_duplicate_options = {1: "'null' after first occurrence",
                                    2: "Add iterated number as suffix",
                                    3: "Leave duplicates in"}
-    data_term_duplicate = 3
+    data_term_duplicate = 2
     data_term_description_options = {1: "Database commentary",
                                      2: "Data glossary compiler commentary",
                                      3: "Database + compiler commentary"}
-    data_term_description = 1
+    data_term_description = 3
     handle_technical_fields_options = {1: "Include technical and unused fields",
                                        2: "Exclude technical and unused fields",
                                        3: "Include technical, exclude unused"}
@@ -82,11 +82,11 @@ class Translator:
     connection = "not specified"
     owner = ""
     color = "red"
-    schema = "brightspark" # TODO: väli ei peaks olema eeldefineeritud, vaid tulema failist
+    schema = "public" #
 
     def __init__(self):
-        self.business_glossary = r'C:\Users\Administrator\PycharmProjects\hobby_projects\test_arisonastik.csv'
-        self.data_glossary = r'C:\Users\Administrator\PycharmProjects\hobby_projects\test_andmekirjeldus.csv'
+        self.business_glossary = r'C:\Users\Administrator\PycharmProjects\hobby_projects\test_arisonastik_short.csv'
+        self.data_glossary = r'C:\Users\Administrator\PycharmProjects\hobby_projects\test_andmekirjeldus_short.csv'
 
     def is_ready_for_translation(self):
         file_attributes = [self.business_glossary, self.data_glossary, self.term_output_file, self.column_term_relation_output_file, self.term_relation_output_file]
@@ -182,6 +182,8 @@ class Translator:
             self.connection = answer
         if parameter == "owner":
             self.owner = answer
+        if parameter == "schema":
+            self.schema = answer
 
     def translate(self):
         if not self.is_ready_for_translation():
@@ -212,30 +214,30 @@ class Translator:
 
         #Loop over data glossary rows
         for index, row in df_dg.iterrows():
-            #Resolve duplicate entry resolution option selection
+            #Resolve duplicate term name entry resolution option selection
+            #todo: ADD LOGIC FOR OTHER MENU OPTIONS (nulling the term names and ignoring duplicates)
 
+            # Use raw term for duplication tracking
+            raw_term = str(row['ANDMESÕNASTIKU TERMIN']).strip() if row['ANDMESÕNASTIKU TERMIN'] else ""
+
+            # Resolve duplicate handling logic
             term_name = ""
+            base_term_name = self.data_term_prefix + raw_term + self.data_term_suffix
 
-            if str(row['ANDMESÕNASTIKU TERMIN']) in df_term['name'].values:
-                if self.data_term_duplicate == 1:
-                    term_name = ""
-                if self.data_term_duplicate == 2:
-                    if str(row['ANDMESÕNASTIKU TERMIN']) not in duplicates_dict:
-                        duplicates_dict[str(row['ANDMESÕNASTIKU TERMIN'])] = 2
-                        term_name = self.data_term_prefix + str(row['ANDMESÕNASTIKU TERMIN']) + self.data_term_suffix + "_2"
-                    else:
-                        term_name = self.data_term_prefix + str(row['ANDMESÕNASTIKU TERMIN']) + self.data_term_suffix + "_" + duplicates_dict.get(str(row['ANDMESÕNASTIKU TERMIN']))
-                        duplicates_dict[str(row['ANDMESÕNASTIKU TERMIN'])] = duplicates_dict[str(row['ANDMESÕNASTIKU TERMIN'])] + 1
-
+            # Track duplicates by raw term only
+            if raw_term in duplicates_dict:
+                duplicates_dict[raw_term] += 1
+                if self.data_term_duplicate > 1:
+                    term_name = f"{base_term_name}_{duplicates_dict[raw_term]}"
             else:
-                term_name = self.data_term_prefix + str(row['ANDMESÕNASTIKU TERMIN']) + self.data_term_suffix
-
+                duplicates_dict[raw_term] = 1
+                term_name = base_term_name
 
             #Resolve technical field inclusion option selection
             if (
                     self.technical_fields == 2 and
-                    re.search(r"ei ole kasutuses", str(row['KOOSTAMISE MÄRKUSED']), re.IGNORECASE) or
-                    re.search(r"tehniline tunnus", str(row['KOOSTAMISE MÄRKUSED']), re.IGNORECASE)
+                    (re.search(r"ei ole kasutuses", str(row['KOOSTAMISE MÄRKUSED']), re.IGNORECASE) or
+                    re.search(r"tehniline tunnus", str(row['KOOSTAMISE MÄRKUSED']), re.IGNORECASE))
             ):
                 continue
 
@@ -253,9 +255,10 @@ class Translator:
                 case 1:
                     description = str(row['Kommentaarid'])
                 case 2:
-                    description = str(row['KOOSTAMISE MÄRKUSED'])
+                    description = str(row['KOOSTAMISE MÄRKUSED']) if str(row['KOOSTAMISE MÄRKUSED']) else " "
                 case 3:
-                    description = str(row['Kommentaarid']) + " "
+                    if str(row['KOOSTAMISE MÄRKUSED']):
+                        description = str(row['Kommentaarid']) + " // " + str(row['KOOSTAMISE MÄRKUSED'])
 
             term_row = pd.DataFrame([{
                 'name': term_name,
@@ -290,16 +293,32 @@ class Translator:
                 df_term_rel = pd.concat([df_term_rel, term_relation_row], ignore_index=True)
 
         #Loop over business glossary
-        #TODO: kontrolli üle ärisõnastiku mõistete lisamise loogika - kas ainult siis kui seost ei ole, või iga kord kui ka on seos?
-        #      Korduste puhul (tulenevalt seosest) välistada uue mõiste lisamine, seeasemel lisatakse ainult seos
         for index, row in df_bg.iterrows():
             row_type = "Concept"
+
             term_name = self.business_term_prefix + str(row['MÕISTE_ET']) + self.business_term_suffix
             target_name = self.business_term_prefix + str(row['SEOTUD MÕISTE']) + self.business_term_suffix
+            term_list = []
 
-            match row['SEOSE TÜÜP']:
+            if str(row['MÕISTE_ET']) not in term_list:
+                term_list.append(str(row['MÕISTE_ET']))
+                term_row = pd.DataFrame([{
+                    'name': term_name,
+                    'color': self.color,
+                    'description': str(row['MÄÄRATLUS VÕI SELGITUS_ET']),
+                    'type': row_type,
+                    'domain': "",
+                    'owner': self.owner
+                }])
+
+                df_term = pd.concat([df_term, term_row], ignore_index=True)
+
+            if pd.notna(row['SEOTUD MÕISTE']) and str(row['SEOTUD MÕISTE']).strip() != "" and pd.notna(row['SEOSE TÜÜP']):
+                continue
+
+            match str(row['SEOSE TÜÜP']):
                 case "KUULUB GRUPPI":
-                    continue
+                    relation = "Belongs to group"
                 case "SEOTUD":
                     relation = "Related to"
                 case "LAIEM":
@@ -307,18 +326,7 @@ class Translator:
                 case "KITSAM":
                     relation = "Parent of"
                 case _:
-                    relation = str(row['SEOSE TÜÜP'])
-
-            term_row = pd.DataFrame([{
-                'name': term_name,
-                'color': self.color,
-                'description': str(row['MÄÄRATLUS VÕI SELGITUS_ET']),
-                'type': row_type,
-                'domain': "",
-                'owner': self.owner
-            }])
-
-            df_term = pd.concat([df_term, term_row], ignore_index=True)
+                    relation = str(row['SEOSE TÜÜP']) if pd.notna(row['SEOSE TÜÜP']) else ""
 
             if row['SEOSE TÜÜP']:
                 term_relation_row = pd.DataFrame([{
@@ -329,9 +337,9 @@ class Translator:
 
                 df_term_rel = pd.concat([df_term_rel, term_relation_row], ignore_index=True)
 
-        df_term.to_csv(self.term_output_file, index=False)
-        df_col_term_rel.to_csv(self.column_term_relation_output_file, index=False)
-        df_term_rel.to_csv(self.term_relation_output_file, index=False)
+        df_term.to_csv(self.term_output_file, index=False, sep=';', encoding='windows-1257')
+        df_col_term_rel.to_csv(self.column_term_relation_output_file, index=False, sep=';', encoding='windows-1257')
+        df_term_rel.to_csv(self.term_relation_output_file, index=False, sep=';', encoding='windows-1257')
 
         print("\n" * 50)
         print("Translation successful, files ready for use!")
