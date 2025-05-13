@@ -15,7 +15,7 @@ def display_change_settings(tr_obj):
         print(f'9) Business term relation output file absolute address: {tr_obj.term_relation_output_file}')
         print(f'10) Data object and term relation output file: {tr_obj.column_term_relation_output_file}')
         print(f'11) Connection name: {tr_obj.connection}')
-        print(f'12) Schema name: {tr_obj.owner}')
+        print(f'12) Schema name: {tr_obj.schema}')
         print(f'13) Owner name: {tr_obj.owner}')
         print(f'0) Return to main menu')
         selection = input("Please select a setting to change or exit settings menu: ")
