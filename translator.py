@@ -217,6 +217,9 @@ class Translator:
             #Resolve duplicate term name entry resolution option selection
             #todo: ADD LOGIC FOR OTHER MENU OPTIONS (nulling the term names and ignoring duplicates)
 
+            if pd.isna(row['ANDMESÕNASTIKU TERMIN']) or pd.isnull(row['ANDMESÕNASTIKU TERMIN']):
+                continue
+
             # Use raw term for duplication tracking
             raw_term = str(row['ANDMESÕNASTIKU TERMIN']).strip() if row['ANDMESÕNASTIKU TERMIN'] else ""
 
@@ -281,11 +284,14 @@ class Translator:
 
             df_col_term_rel = pd.concat([df_col_term_rel, col_term_rel_row], ignore_index=True)
 
+            if pd.isna(row['ÄRISÕNASTIKU TERMIN']) or pd.isnull(row['ÄRISÕNASTIKU TERMIN']):
+                continue
+
             source_term_list = str(row['ÄRISÕNASTIKU TERMIN']).split(':')
             for source_term in source_term_list:
-
+                st = str(source_term).strip()
                 term_relation_row = pd.DataFrame([{
-                    'sourceName': self.data_term_prefix + str(source_term) + self.data_term_suffix,
+                    'sourceName': self.data_term_prefix + st + self.data_term_suffix,
                     'relation': "Related to",
                     'targetName': term_name
                 }])
