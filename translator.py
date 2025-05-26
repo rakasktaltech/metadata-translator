@@ -19,7 +19,7 @@ def is_correct_input(file_name):
 
     # Try reading the file as a CSV with ';' delimiter
     try:
-        with open(file_name, newline='', encoding='windows-1257') as csvfile:
+        with open(file_name, newline='', encoding='utf-8') as csvfile:
             reader = csv.reader(csvfile, delimiter=';')
             first_row = next(reader, None)
             if first_row is None or len(first_row) < 1:
@@ -55,6 +55,7 @@ def is_correct_output(destination):
 
 
 def validate_dataframes(df_bg, df_dg):
+    # TODO: Lisa kontroll, mis ütleks, kas kõik tõlkeks vajalikud read on dataframe's olemas
     pass
 
 
@@ -191,13 +192,11 @@ class Translator:
             return
 
         try:
-            df_bg = pd.read_csv(self.business_glossary, delimiter=';', encoding='windows-1257')
-            df_dg = pd.read_csv(self.data_glossary, delimiter=';', encoding='windows-1257')
+            df_bg = pd.read_csv(self.business_glossary, delimiter=';', encoding='utf-8')
+            df_dg = pd.read_csv(self.data_glossary, delimiter=';', encoding='utf-8')
         except ReadError:
             print('Unable to read file, aborting translation')
             return
-
-        #TODO: Lisa kontroll, mis ütleks, kas kõik tõlkeks vajalikud read on dataframe's olemas
 
         validate_dataframes(df_bg, df_dg)
 
@@ -222,8 +221,6 @@ class Translator:
 
             # Use raw term for duplication tracking
             raw_term = str(row['ANDMESÕNASTIKU TERMIN']).strip() if row['ANDMESÕNASTIKU TERMIN'] else ""
-
-            # Resolve duplicate handling logic
             term_name = ""
             base_term_name = self.data_term_prefix + raw_term + self.data_term_suffix
 
@@ -343,9 +340,9 @@ class Translator:
 
                 df_term_rel = pd.concat([df_term_rel, term_relation_row], ignore_index=True)
 
-        df_term.to_csv(self.term_output_file, index=False, sep=';', encoding='windows-1257')
-        df_col_term_rel.to_csv(self.column_term_relation_output_file, index=False, sep=';', encoding='windows-1257')
-        df_term_rel.to_csv(self.term_relation_output_file, index=False, sep=';', encoding='windows-1257')
+        df_term.to_csv(self.term_output_file, index=False, sep=';', encoding='utf-8')
+        df_col_term_rel.to_csv(self.column_term_relation_output_file, index=False, sep=';', encoding='utf-8')
+        df_term_rel.to_csv(self.term_relation_output_file, index=False, sep=';', encoding='utf-8')
 
         print("\n" * 50)
         print("Translation successful, files ready for use!")
