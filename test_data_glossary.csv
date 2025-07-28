@@ -1,0 +1,16 @@
+ÄRISÕNASTIKU TERMIN;ANDMESÕNASTIKU TERMIN;Tabeli nimi;Välja nimi;Kommentaarid;KOOSTAMISE MÄRKUSED
+kasutajakonto: kirje;kirje unikaalne identifikaator;accounts;id;primery key;tehniline tunnus
+kasutajakonto;;accounts;user_id;seos users.id;Tehniline tunnus
+kasutajakonto ;;accounts;account_name;taotleja nimetus;Kas siin tabelis on ainult taotlejate kasutajakontote andmed? Kuna allpool on jah/ei väli selle kohta, siis tekkis kahtlus.
+kasutajakonto;konto omaniku kontotüüp;accounts;account_type;kontotüüp: 1 - eraisik, 2 - juriidiline isik, 3 -Riigi- või avaliku sektori asutus, 4 - Välismaa juriidiline isik;
+kasutajakonto;taotleja konto kustutamise märge;accounts;is_deleted;kustutatud: 1 - jah, 0 - ei;ei ole kasutuses
+kasutajakonto;kasutajakonto loomise kuupäev;;created;loomise kuupäev;tehniline tunnus
+kasutajakonto;kasutajakonto loomise kuupäev;accounts;;loomise kuupäev;tehniline tunnus
+kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;;tehniline tunnus
+;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;tehniline tunnus
+kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;tehniline tunnus
+kasutajakonto;kasutajakonto muutmise kuupäev;accounts;modified;muutmise kuupäev;tehniline tunnus
+kasutajakonto;seos legent.id (seos jur isikuga);accounts;legent_id;seos legent.id;tehniline tunnus: ei ole kasutuses
+kasutajakonto;kasutajakonto allkirjastamise õigus;accounts;is_signer;allkirjastaja: 1 - jah, 0 - ei;
+kasutajakonto;kasutajakonto taotluse esitamise õigus;accounts;is_applicant;taotleja: 1 - jah, 0 - ei;
+kirje;kirje unikaalne identifikaator;applications;id;primery key;tehniline tunnus

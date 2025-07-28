@@ -1,0 +1,12 @@
+MÕISTE_ET;SEOSE TÜÜP;SEOTUD MÕISTE;MÄÄRATLUS VÕI SELGITUS_ET
+aadressiandmed;SEOTUD;kontaktandmed;
+administraator;SEOTUD;administraator;
+akordionvalik;SEOTUD;taotlused;valikugruppide haldamise süsteem
+allkirjastaja;SEOTUD;allkirjastaja;allkirja (sh digiallkirja) andmine isiku poolt, kellel on esindamisõigus
+allkirjastamisõigus;SEOTUD;allkirjastamisõigus;seaduslik või volitatud esindamine
+aruanne;KUULUB GRUPPI;taotlus/leping/aruanne;eralduse saaja on kohustatud esitama aruande projekti-, tegevustoetuse ning loometöötasu eesmärgi teostumise – tegelikult saadud tulude ja tehtud kulutuste kohta 60 kalendripäeva jooksul peale projekti teostumist või tegevustoetust saanud perioodi lõppemist. Kultuurkapitali juhatajal on õigus omal algatusel või eralduse saaja avalduse alusel aruande esitamise tähtaega mõjuvatel põhjustel muuta, lähtudes haldusmenetluse seaduses sätestatust. Mitteresidendist eralduse saaja ei ole kohustatud esitama aruannet, kui ekspertkomisjoni otsusega makstakse eraldus välja peale eesmärgi täitumist.
+asutus;SEOTUD;kontaktandmed/allkirjastaja;halduslikke, kultuurilisi, hariduslikke vm ülesandeid täitev iseseisev, ainelise tootmisega mitte tegelev organ, institutsioon.
+ekspert;KUULUB GRUPPI;ekspert;valdkonna asjatundja eriteadmisi nõudvate otsuste tegemiseks
+eralduse tagasimaksmine;SEOTUD;toetuse tagasimaksmine;"eralduse saajal on kohustus tagastada eraldus 10 tööpäeva jooksul alates Kultuurkapitalilt kirjaliku tagasinõude otsuse saamisest. Tagasimaksmisele kuuluva eralduse, mis on suurem kui 50 eurot, võib ajatada eralduse saaja põhjendatud avalduse alusel kuni 12 kuuks, kui korraga maksmine seab eralduse saaja olulisel määral makseraskustesse või esinevad muud kaalukad asjaolud. Kui eralduse saaja ei maksa ajatamiskava kohaselt eraldust tagasi, jääb eralduse saaja Kultuurkapitali ees võlglaseks. 
+"
+eraldusotsus;KUULUB GRUPPI;taotlus/leping/aruanne;taotlus rahuldatakse sisulise hindamise alusel kas täielikult või osaliselt või jäetakse taotlus rahuldamata (edaspidi ühiselt nimetatud eraldusotsus). Eraldusotsuste tegemisel lähtutakse laekunud taotluste analüüsist ning jagamisele kinnitatud rahalistest vahenditest. Kui raha jagamise korras on sätestatud eralduste kindel arv või suurus, lähtutakse otsuse tegemisel vastavatest tingimustest.
