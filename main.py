@@ -1,6 +1,5 @@
 import translator
 
-
 def display_change_settings(tr_obj):
     print("\n" * 50)
     while True:
