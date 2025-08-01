@@ -63,6 +63,8 @@ def validate_dataframes(df_bg, df_dg):
         missing_bg_terms.append("MÄÄRATLUS VÕI SELGITUS_ET")
     if "SEOSE TÜÜP" not in df_bg.columns:
         missing_bg_terms.append("SEOSE TÜÜP")
+    if "ÄRISÕNASTIKU TERMIN" not in df_dg.columns:
+        missing_dg_terms.append("ÄRISÕNASTIKU TERMIN")
     if "ANDMESÕNASTIKU TERMIN" not in df_dg.columns:
         missing_dg_terms.append("ANDMESÕNASTIKU TERMIN")
     if "KOOSTAMISE MÄRKUSED" not in df_dg.columns:
@@ -75,9 +77,9 @@ def validate_dataframes(df_bg, df_dg):
         missing_dg_terms.append("Välja nimi")
 
     if missing_bg_terms:
-        answer += "Missing required columns from business glossary:" + str(missing_bg_terms)
+        answer += "Missing required columns from business glossary: " + str(missing_bg_terms)
     if missing_dg_terms:
-        answer += "Missing required columns from data glossary:" + str(missing_dg_terms)
+        answer += "Missing required columns from data glossary: " + str(missing_dg_terms)
     return answer
 
 def is_unused(txt: str):
@@ -93,9 +95,9 @@ class Translator:
                                    3: "Leave duplicates in unchanged as duplicate data terms",
                                    4: "Exclude duplicates after first occurance"}
     data_term_duplicate = 2
-    data_term_description_options = {1: "Database commentary",
-                                     2: "Data glossary compiler commentary",
-                                     3: "Database + compiler commentary",
+    data_term_description_options = {1: "Database commentary only",
+                                     2: "Data glossary creator commentary only",
+                                     3: "Database + glossary creator commentary",
                                      4: "Leave empty"}
     data_term_description = 3
     handle_technical_fields_options = {1: "Include technical and unused fields",
@@ -110,7 +112,7 @@ class Translator:
     term_relation_output_file = r'C:\Users\Administrator\Translator\btr_test.csv'
     term_output_file = r'C:\Users\Administrator\Translator\term_test.csv'
     column_term_relation_output_file = r'C:\Users\Administrator\Translator\col_term_rel_test.csv'
-    connection = "not specified"
+    connection = "none"
     owner = ""
     color = "red"
     schema = "public"
@@ -141,7 +143,7 @@ class Translator:
         if len(set(file_attributes)) != 5:
             print('Duplicate names detected in file names, please change them in settings menu')
             return False
-        if self.connection == "not specified":
+        if self.connection == "none":
             print('Connection name not specified. Please provide a connection name')
             return False
 
@@ -260,10 +262,13 @@ class Translator:
                 continue
 
             # Use raw term for duplication tracking
-            raw_term = str(row['ANDMESÕNASTIKU TERMIN']).strip() if row['ANDMESÕNASTIKU TERMIN'] else ""
+            raw_term = str(row['ANDMESÕNASTIKU TERMIN']).strip().lower() if row['ANDMESÕNASTIKU TERMIN'] else ""
+            print(f'Raw term name: {raw_term}')
+            print(f'lower of raw term name:{raw_term.lower}')
             term_name = self.get_term_name(raw_term)
+            print(f'term_name function result: {term_name}')
 
-            # Check for option to exclude duplicate fields after first occurence
+            # Check for option to exclude duplicate fields after first occurrence
             if (self.duplicates_dict[raw_term] > 1) and (self.data_term_duplicate == 4):
                 continue
 
@@ -334,12 +339,12 @@ class Translator:
         for index, row in self.df_bg.iterrows():
             row_type = "Concept"
 
-            term_name = self.business_term_prefix + str(row['MÕISTE_ET']) + self.business_term_suffix
-            target_name = self.business_term_prefix + str(row['SEOTUD MÕISTE']) + self.business_term_suffix
+            term_name = self.business_term_prefix + str(row['MÕISTE_ET']).lower() + self.business_term_suffix
+            target_name = self.business_term_prefix + str(row['SEOTUD MÕISTE']).lower() + self.business_term_suffix
             term_list = []
 
             if str(row['MÕISTE_ET']) not in term_list:
-                term_list.append(str(row['MÕISTE_ET']))
+                term_list.append(str(row['MÕISTE_ET']).lower())
                 term_row = pd.DataFrame([{
                     'name': term_name,
                     'color': self.color,
