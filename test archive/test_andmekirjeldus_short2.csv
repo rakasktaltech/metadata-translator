@@ -1,0 +1,27 @@
+ALGNE NR;ÄRISÕNASTIKU TERMIN;ANDMESÕNASTIKU TERMIN;Tabeli nimi;Välja nimi;Kommentaarid;SISULINE MÄRKUS;KOOSTAMISE MÄRKUSED;
+39;kasutajakonto: kirje;kirje unikaalne identifikaator;accounts;id;primery key;;tehniline tunnus;
+40;kasutajakonto;viide kasutajale, kes logib sisse;accounts;user_id;seos users.id;;Tehniline tunnus;
+41;kasutajakonto ;konto omanik;accounts;account_name;taotleja nimetus;;Kas siin tabelis on ainult taotlejate kasutajakontote andmed? Kuna allpool on jah/ei väli selle kohta, siis tekkis kahtlus.;
+42;kasutajakonto: jur isiku andmed;kasutajakonto juriidilisest isikust omaniku registrikood;accounts;registrycode;registrikood;;;
+43;kasutajakonto: jur isiku andmed;kasutajakonto juriidilisest isikust omaniku tehingupartneri kood;accounts;partner_code;tehingupartneri kood;;;
+44;kasutajakonto: allkirjastamisõigusega;kontro omaniku allkirjaõiguse märge;accounts;signature;allkirjastamisõigus: 1 - jah, 0 - ei;;Ei ole kasutuses;
+45;kasutajakonto;juriidilisest isikust konto omaniku osakond;accounts;department;osakond;;;
+46;kasutajakonto: aadressiandmed;konto omaniku aadress (ei ole kasutuses, eemaldame);accounts;address;aadress;;;
+47;kasutajakonto: aadressiandmed;konto omaniku aadress – tänav;accounts;street_name;tänav;;;
+48;kasutajakonto: aadressiandmed;konto omaniku aadress – maja number;accounts;street_number;tänava number;;;
+49;kasutajakonto: aadressiandmed;konto omaniku aadress – linnaosa;accounts;borough;linnaosa;;;
+50;kasutajakonto: aadressiandmed;konto omaniku aadress – linn;accounts;city;linn;;;
+51;kasutajakonto: aadressiandmed;konto omaniku aadress – maakond;accounts;county;maakond;;;
+52;kasutajakonto: aadressiandmed;konto omaniku aadress – sihtnumber;accounts;zip_code;sihtnumber;;;
+53;kasutajakonto: aadressiandmed;konto omanikuaadress – riik;accounts;country;riik;;;
+54;kasutajakonto: aadressiandmed;konto omaniku e-posti aadress;accounts;email;email;;;
+55;kasutajakonto: aadressiandmed;konto omaniku telefoninumbri suunakood;accounts;phone_prefix;suunakood;;;
+56;kasutajakonto: aadressiandmed;konto omaniku telefon;accounts;phone;telefon;;;
+57;kasutajakonto;konto omaniku kontotüüp;accounts;account_type;kontotüüp: 1 - eraisik, 2 - juriidiline isik, 3 -Riigi- või avaliku sektori asutus, 4 - Välismaa juriidiline isik;;;
+58;kasutajakonto;taotleja konto kustutamise märge;accounts;is_deleted;kustutatud: 1 - jah, 0 - ei;;;
+59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus;
+59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus;
+59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus;
+59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus;
+59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus;
+60;x;x;x;x;x;x;x;x

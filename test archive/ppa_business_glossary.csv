@@ -1,0 +1,88 @@
+﻿JRK NR,MÕISTE_ET,SEOSE TÜÜP,ON EELISTERMIN,SEOTUD MÕISTE,MÄÄRATLUS VÕI SELGITUS_ET,ALLIKAS
+1,aadress,,JAH,,objekti asukohale osutav kirje või tunnus objekti leidmiseks geograafilises ruumis,https://www.riigiteataja.ee/akt/130122024017
+2,ametnik,,JAH,,isik. kes on riigiga või kohaliku omavalitsuse üksusega avalik-õiguslikus teenistus- ja usaldussuhtes,https://www.riigiteataja.ee/akt/105072025004
+3,asi,,JAH,,,
+4,asutus,,JAH,,,
+5,dokument,,JAH,,,
+6,Eesti haldus- ja asustusjaotuse klassifikaator (EHAK),,JAH,,"„Eesti haldus- ja asustusjaotuse klassifikaator"" (EHAK) on ette nähtud territoriaalse paiknemise tähistamiseks. Igale klassifitseerimisobjektile on antud unikaalne neljakohaline kood ja näidatud on objekti nimi ning rööpnimi (kui see on olemas). Klassifikaator hõlmab: riikliku haldamise üksused — maakonnad; omavalitsuslikud haldusüksused — vallad ja linnad; piiratud omavalitsusega haldusüksused — linnaosad; muud asulad ja asustusüksused — linnad asustusüksusena. alevid. alevikud ja külad.",https://klassifikaatorid.stat.ee/Item/stat.ee/c4c47742-12d7-4fea-bc8c-5aeca9112e2a/88
+7,ese,,JAH,,,
+8,E-toimik,,JAH,,E-toimiku süsteemi eesmärk on: 1) tagada ülevaade uurimisasutuste. prokuratuuri ja kohtute menetluses olevatest kriminaalasjadest. samuti alustamata jäetud kriminaalasjadest; 2) tagada ülevaade kohtuvälise menetleja ja kohtu menetluses olevatest väärteoasjadest. samuti alustamata jäetud väärteomenetlustest; 3) kajastada andmeid kriminaal- ja väärteomenetluse käigus tehtud toimingute kohta; 4) võimaldada menetleja töö korraldamist; 5) tagada kriminaal- ja karistuspoliitiliste otsustuste tegemiseks vajaliku statistika kogumine; 6) võimaldada andmete ja dokumentide elektroonilist edastamist. E-toimiku süsteemi avaliku liidese pidamise eesmärk on: 1) võimaldada seaduses ja käesolevas määruses sätestatud juhtudel ja mahus isikule juurdepääs e-toimiku süsteemile ning selles sisalduvatele andmetele tema kohta; 2) võimaldada isikul esitada süütegusid menetlevatele asutustele elektrooniliselt taotlusi ja dokumente.,https://www.riha.ee/Infos%C3%BCsteemid/Vaata/e-toimik
+9,fail,,JAH,,,
+10,faili omanik,SEOTUD,JAH,fail,,
+11,füüsiline isik,KITSAM,JAH,isik,inimene õigussubjektina. kellele õiguskord on omistanud võime omada tsiviilõigusi ja kanda tsiviilkohustusi,https://sonaveeb.ee/search/unif/dlall/dsall/f%C3%BC%C3%BCsiline%20isik/1/est
+12,helisalvestus,,JAH,,,
+13,helsa,,JAH,,Helsa on OPIS süsteemis katusmõiste järgnevatele mõistetele: PÖÖRDUMINE – kodaniku või kannatanu pöördumine. Pöördumise kanaliteks saavad olla telefon. e-post ja isiklik kohaletulek; RAADIOINFO PÄRING – Politseis sisene info küsimine raadiosidevõrgu vahendusel; PATRULLI RAPORT – patrulltoimkonna aruanne sündmuskohal nähtu või seal tehtud tegevuste kohta; SÕIDUKI TEISALDUS – valesti pargitud või mingil muul viisil segava sõiduki teisaldus teise kohta reeglina tasulisse parklasse. Samuti lähevad helsa tabelisse vastamata kõned ja Politsei poolsed väljahelistamised.,Politsei- ja Piirivalveamet
+14,helsa omanik,SEOTUD,JAH,helsa,,
+15,hoiatusteade,,JAH,,Schengeni infosüsteemi sisestatakse ja sellest otsitakse hoiatusteateid. Hoiatusteade sisaldab andmeid. mis aitavad välja selgitada teadmata kadunud ja tagaotsitavate isikute asukohta ning kadunud või varastatud. ebaseaduslikult omastatud või kaotatud dokumentide ja esemete asukohta.,https://www.politsei.ee/et/juhend/schengeni-piirikontroll/schengeni-infosusteem-sis
+16,isik,,JAH,,,
+17,isiku kinnipidamine,,JAH,,Politsei või seaduses sätestatud juhul muu korrakaitseorgan võib isiku kinni pidada. sulgedes ta ruumi või sõidukisse või piirates muul viisil olulisel määral tema füüsilist vabadust. kui see on vältimatu: 1) vahetult eelseisva kuriteo toimepanemise ärahoidmiseks; 2) isiku elu või kehalist puutumatust ähvardava vahetu ohu tõrjumiseks; 3) kohtu kehtestatud lähenemiskeelu tagamiseks; [RT I. 13.03.2014. 4 - jõust. 01.07.2014] 4) seaduses sätestatud alusel sundtoomiseks; [RT I. 13.03.2014. 4 - jõust. 01.07.2014] 5) terviseseisundi või vanuse tõttu abi vajava isiku üleandmiseks pädevale isikule abi osutamise eesmärgil ohu ennetamisel. väljaselgitamisel või tõrjumisel või korrarikkumise kõrvaldamisel; [RT I. 13.03.2014. 4 - jõust. 01.07.2014] 6) täiskasvanud saatjata alla 16-aastase lapse üleandmiseks tema vanemale või seaduslikule esindajale või lapse toimetamiseks tema vanema või seadusliku esindaja juurde või kohaliku omavalitsuse hoolekandeasutusse seaduses sätestatud liikumispiirangu rikkumise kõrvaldamiseks avalikus kohas; [RT I. 13.03.2014. 4 - jõust. 01.07.2014] 7) Euroopa Parlamendi ja nõukogu määruse (EL) 2018/1862. milles käsitletakse Schengeni infosüsteemi (SIS) loomist. toimimist ja kasutamist politseikoostöös ja kriminaalasjades tehtavas õigusalases koostöös ning millega muudetakse nõukogu otsust 2007/533/JSK ja tunnistatakse see kehtetuks ning tunnistatakse kehtetuks Euroopa Parlamendi ja nõukogu määrus (EÜ) nr 1986/2006 ning komisjoni otsus 2010/261/EL (ELT L 312. 07.12.2018. lk 56–106). artikli 32 alusel Schengeni infosüsteemi kantud isiku. keda tema enda turvalisuse huvides või kaitseks ohu eest on vaja ajutiselt paigutada turvalisse paika; [RT I. 06.08.2022. 6 - jõust. 16.08.2022] 8) hädaohus oleva lapse toimetamiseks ohututesse tingimustesse seadusliku esindaja nõusolekuta. kui lastekaitsetöötaja ei saa või ei saa õigel ajal lapse kaitseks sekkuda.,https://www.riigiteataja.ee/akt/105072025012
+18,isikukood,SEOTUD,JAH,isik,isiku soo ja sünniaja alusel moodustatud ning Eesti Vabariigi standardile vastav isiku üheselt kindlaksmääramist võimaldav number,https://www.riigiteataja.ee/akt/118102024004
+19,joove,,JAH,,joobnud olek. alkoholi. uimasti vms mõjust närvisüsteemile tekkiv seisund. mille korral isiku käitumine on häiritud,https://sonaveeb.ee/search/unif/dlall/dsall/joove/1/est
+20,juhtimiskeskus,,JAH,,,
+21,juhtum,,JAH,,,
+22,juriidiline isik,KITSAM,JAH,isik,seaduse alusel loodud õigussubjekt. kindla eesmärgiga tegutsev asutus või organisatsioon. millele õiguskord on omistanud õigusvõime (nt osaühing. aktsiaselts. kohalik omavalitsus. riik),https://sonaveeb.ee/search/unif/dlall/dsall/juriidiline%20isik/1/est
+23,juurdepääs,,,,,
+24,kahju,,JAH,,,
+25,karistus,,JAH,,,
+26,kasutaja,,,,,
+27,kasutaja grupp,SEOTUD,JAH,kasutaja,,
+28,kere,,JAH,,liiklusvahendi. eseme. hoone vm keskne osa. mille külge kinnituvad vajalikud lisaosad,https://sonaveeb.ee/search/unif/dlall/dsall/kere/1/est
+29,kirje,,JAH,,,
+30,kirje omanik,SEOTUD,JAH,kirje,,
+31,kodakondsus,,JAH,,inimese ja riigi poliitiline ja õiguslik side. mille kaudu määratakse vastastikused õigused ning kohustused,https://sonaveeb.ee/search/unif/dlall/dsall/kodakondsus/1/est
+32,koha-aadress,,JAH,,territooriumi haldusjaotuse hierarhiast ja ametlikest kohanimedest lähtuv aadressiobjekti tekstilis-numbriline kirje,https://geoportaal.maaamet.ee/docs/aadress/aadressiandmete_kasiraamat.pdf
+33,korter,,JAH,,ühest või mitmest toast ja hrl kõrvalruumidest koosnev eluruumide kogum,https://sonaveeb.ee/search/unif/dlall/dsall/korter/1/est
+34,kuritegu,,JAH,,karistusseadustikus sätestatud süütegu. mille eest on põhikaristusena ette nähtud füüsilisele isikule rahaline karistus või vangistus ja juriidilisele isikule rahaline karistus,https://www.riigiteataja.ee/akt/105072025010
+35,kütus,,JAH,,põlemisel rohkesti soojusenergiat andev aine. mida kasutatakse energiaallikana (nt maagaas. kivisüsi. küttepuit),https://sonaveeb.ee/search/unif/dlall/dsall/k%C3%BCtus/1/est
+36,maantee,,JAH,,väljaspool linnu. aleveid ja alevikke paiknev tee sõidukite ja jalakäijate liiklemiseks,https://www.riigiteataja.ee/akt/108072025039
+37,maja,,JAH,,hoone inimestele elamiseks. töötamiseks. nende teenindamiseks vms,https://sonaveeb.ee/search/unif/dlall/dsall/maja/1/est
+38,mast,,JAH,,(purjelaeval:) tugev kõrge püstloodne või veidi kaldu olev post. mille külge kinnitatakse purjed ja muu taglas,https://sonaveeb.ee/search/unif/dlall/dsall/mast/1/est
+39,mootor,,JAH,,masina või aparaadi käitamiseks vajalikku liikumisenergiat muust energialiigist muundav masin,https://sonaveeb.ee/search/unif/dlall/dsall/mootor/1/est
+40,objekt,,JAH,,,
+41,ohvriabi,,JAH,,ohvriabi seaduse tähenduses on riigi korraldatud ohvriabiteenuste ja kuriteoohvri hüvitiste süsteem,https://www.riigiteataja.ee/akt/106012023001
+42,paragrahv,,JAH,,seaduse vm õigusakti nummerdatud alljaotis (tähistatud märgiga § ja vastava numbriga). mis sisaldab õigusnormi või selle osa,https://sonaveeb.ee/search/unif/dlall/dsall/paragrahv/1/est
+43,prefektuur,,JAH,,Politsei- ja Piirivalveameti piirkondlik struktuuriüksus,https://www.riigiteataja.ee/akt/123102025002
+44,primm,,JAH,,õigusakti struktuuriosade nummerdamisel kasutatav ülaindeks 1,https://sonaveeb.ee/search/unif/dlall/dsall/primm/1/est
+45,puri,,JAH,,riidest vm püstpind. mis masti külge kinnitatuna püüab tuult ja paneb purjeka. purjelaua vm tuule jõul liikuma,https://sonaveeb.ee/search/unif/dlall/dsall/puri/1/est
+46,pöördumine,,JAH,,,
+47,pöördumise lahendaja,SEOTUD,JAH,pöördumine,,
+48,registrikood,,JAH,,juriidilisele isikule. välismaa äriühingu filiaalile ja füüsilisest isikust ettevõtjale äriregistrisse kandmisel antav kordumatu registrikood,https://www.riigiteataja.ee/akt/123122022025
+49,riigisaladus,,JAH,,Eesti Vabariigi julgeoleku või välissuhtlemise tagamise huvides avalikuks tuleku eest kaitset vajav üksnes käesolevas seaduses ja selle alusel antud õigusaktides sätestatud tunnustele vastav teave. välja arvatud salastatud välisteave,https://www.riigiteataja.ee/akt/108072025047
+50,riik,,JAH,,,
+51,Schengeni infosüsteem (SIS),,JAH,,kõige laialdasemalt kasutatav ja suurim julgeoleku- ja piirihaldusteabe jagamise süsteem Euroopas,https://www.politsei.ee/et/juhend/schengeni-piirikontroll/schengeni-infosusteem-sis
+52,soodustus,,JAH,,,
+53,stenogramm,,JAH,,suulise kõne kohta kiirkirjas märkmete põhjal tehtud sõnaline üleskirjutus,https://sonaveeb.ee/search/unif/dlall/dsall/stenogramm/1/est
+54,struktuuriüksus,,JAH,,ettevõtte. asutuse või organisatsiooni osakond või eriülesandega allosa,https://sonaveeb.ee/search/unif/dlall/dsall/struktuuri%C3%BCksus/1/est
+55,sõiduk,,JAH,,teel liiklemiseks ettenähtud või teel liiklev seade. mis liigub mootori või muul jõul,https://www.riigiteataja.ee/akt/109012025008
+56,sündmus,,JAH,,,
+57,tagaotsimine,,JAH,,,
+58,tagaotsimise toimik,SEOTUD,JAH,tagaotsimine,,
+59,tagaotsitav isik,,JAH,,,
+60,talu,,JAH,,tavaliselt ühele perekonnale kuuluv elupaik ja väike maamajand. mis hõlmab maavalduse koos eluhoonete. abihoonete. nii majandatavate (aed. põllud. karjamaad. heinamaad. mets) kui ka mittemajandatavate kooslustega (nt soo. ka osa metsa) koos nende elanikega (sealhulgas kodu- ja metsloomadega),https://geoportaal.maaamet.ee/docs/aadress/aadressiandmete_kasiraamat.pdf
+61,teade,,JAH,,,
+62,tee,,JAH,,jalakäijate või sõidukite liiklemiseks avatud rajatis või maaomaniku poolt liikluseks ettenähtud muu ala. Tee koosseisu kuuluvad ka teepeenrad. eraldus- ja haljasribad. Olenevalt pealiskihist jagunevad teed kattega teeks. kruusateeks ja pinnasteeks. Kattega tee on tsemendi. tuha või bituumeniga töödeldud materjalist kattega (asfalt-. tsementbetoon- või muu selline kate) ning kiviparketi ja munakivisillutisega tee. Kruusatee on kruusast. kruus- või killustikliivast või killustikusõelmetest tee. Pinnastee on põllu-. metsa- või muu selline pealiskihita tee. mis on teeks rajatud või sõidukite liikumise tulemusena selleks kujunenud.,https://www.riigiteataja.ee/akt/120062022070
+63,turvavarustus,,JAH,,ohu vältimiseks ja ohuolukorras tegutsemiseks vaja minevad asjad (nt turvavöö. õhkpadi. päästevest),https://sonaveeb.ee/search/unif/dlall/dsall/turvavarustus/1/est
+64,tõeväärtus,,,,,
+65,tõendusmaterjal,,JAH,,,
+66,tänav,,JAH,,linnas vm asulas asuv (kõnniteega varustatud) tee,
+67,töökoht,,JAH,,kindlapiiriliste ülesannetega palgatöö asutuses. ettevõttes vm; töötamise võimalus ühele inimesele,https://sonaveeb.ee/search/unif/dlall/dsall/t%C3%B6%C3%B6koht/1/est
+68,varaline kahju,,JAH,,otsene majanduslik kahju. mis hõlmab varalise väärtuse vähenemist või kaotust. Näiteks kahjustatud vara. saamata jäänud tulu või tekkinud kulud kahju kõrvaldamiseks.,https://www.juristaitab.ee/et/kahju-liigid
+69,varaline kasu,,JAH,,,
+70,veesõiduk,,JAH,,ujuvvahend. mis on mõeldud veekogul liiklemiseks. sealhulgas teisaldatav ujuvvahend,https://www.riigiteataja.ee/akt/117042025029
+71,veesõiduki sertifikaat,SEOTUD,JAH,veesõiduk,,
+72,veesõiduki valmistaja,SEOTUD,JAH,veesõiduk,,
+73,VIN-kood,,JAH,,sõidukile kantud tähtede ja/või numbrite kombinatsioon. mille valmistaja on määranud konkreetse sõiduki tähistamiseks ja tuvastamiseks,https://www.riigiteataja.ee/akt/111082023003
+74,väline register,,JAH,,,
+75,välismaalane,,JAH,,välismaalaste seaduse tähenduses on isik. kes ei ole Eesti kodanik,https://www.riigiteataja.ee/akt/112072025031
+76,õhusõiduk,,JAH,,aparaat. mis püsib atmosfääris õhu vastumõjul. välja arvatud maa- või veepinnalt põrkunud õhu vastumõjul,https://www.riigiteataja.ee/akt/104122024012
+77,õppeasutus,,JAH,,õpetamisega. hariduse andmisega tegelev asutus,https://sonaveeb.ee/search/unif/dlall/dsall/%C3%B5ppeasutus/1/est
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,

@@ -1,0 +1,25 @@
+JRK NR;MÕISTE_ET;SEOSE TÜÜP;SEOTUD MÕISTE;MÄÄRATLUS VÕI SELGITUS_ET
+1;aadressiandmed;SEOTUD;kontaktandmed;"aadress kirjeldab ja määrab objekti asukoha geograafilises ruumis. Aadressiandmete täpsuse ja nõuetele vastavuse eest vastutavad meie riigis kohalikud omavalitsused.
+"
+2;administraator;SEOTUD;administraator;laiendatud õigustega kasutaja
+3;akordionvalik;SEOTUD;taotlused;valikugruppide haldamise süsteem
+4;allkirjastaja;SEOTUD;allkirjastaja;allkirja (sh digiallkirja) andmine isiku poolt, kellel on esindamisõigus
+5;allkirjastamisõigus;SEOTUD;allkirjastamisõigus;seaduslik või volitatud esindamine
+6;aruanne;KUULUB GRUPPI;taotlus/leping/aruanne;eralduse saaja on kohustatud esitama aruande projekti-, tegevustoetuse ning loometöötasu eesmärgi teostumise – tegelikult saadud tulude ja tehtud kulutuste kohta 60 kalendripäeva jooksul peale projekti teostumist või tegevustoetust saanud perioodi lõppemist. Kultuurkapitali juhatajal on õigus omal algatusel või eralduse saaja avalduse alusel aruande esitamise tähtaega mõjuvatel põhjustel muuta, lähtudes haldusmenetluse seaduses sätestatust. Mitteresidendist eralduse saaja ei ole kohustatud esitama aruannet, kui ekspertkomisjoni otsusega makstakse eraldus välja peale eesmärgi täitumist.
+7;asutus;SEOTUD;kontaktandmed/allkirjastaja;halduslikke, kultuurilisi, hariduslikke vm ülesandeid täitev iseseisev, ainelise tootmisega mitte tegelev organ, institutsioon.
+8;ekspert;KUULUB GRUPPI;ekspert;valdkonna asjatundja eriteadmisi nõudvate otsuste tegemiseks
+9;eralduse tagasimaksmine;SEOTUD;toetuse tagasimaksmine;"eralduse saajal on kohustus tagastada eraldus 10 tööpäeva jooksul alates Kultuurkapitalilt kirjaliku tagasinõude otsuse saamisest. Tagasimaksmisele kuuluva eralduse, mis on suurem kui 50 eurot, võib ajatada eralduse saaja põhjendatud avalduse alusel kuni 12 kuuks, kui korraga maksmine seab eralduse saaja olulisel määral makseraskustesse või esinevad muud kaalukad asjaolud. Kui eralduse saaja ei maksa ajatamiskava kohaselt eraldust tagasi, jääb eralduse saaja Kultuurkapitali ees võlglaseks. 
+"
+10;eraldusotsus;KUULUB GRUPPI;taotlus/leping/aruanne;taotlus rahuldatakse sisulise hindamise alusel kas täielikult või osaliselt või jäetakse taotlus rahuldamata (edaspidi ühiselt nimetatud eraldusotsus). Eraldusotsuste tegemisel lähtutakse laekunud taotluste analüüsist ning jagamisele kinnitatud rahalistest vahenditest. Kui raha jagamise korras on sätestatud eralduste kindel arv või suurus, lähtutakse otsuse tegemisel vastavatest tingimustest.
+11;fail;KUULUB GRUPPI;taotlus/leping/aruanne;nimega andmekogum: teksti+fail, pildi+fail, heli+fail, käsu+fail
+12;instruktsioon;LAIEM;;juhend, (tarvitus)õpetus
+13;isikukood;SEOTUD;kontaktandmed/allkirjastaja;isiku soo ja sünniaja alusel moodustatud ning Eesti Vabariigi standardile vastav isiku üheselt kindlaksmääramist võimaldav number. Isikukood loetakse antuks selle kandmisel rahvastikuregistrisse
+14;juriidiline isik;;allkirjastaja;"Juriidiline isik on seaduse alusel loodud õigussubjekt. Juriidiline isik on kas eraõiguslik või avalik-õiguslik.Eraõiguslik juriidiline isik on erahuvides ja selle juriidilise isiku liigi kohta käiva seaduse alusel loodud juriidiline isik, nt täisühing, usaldusühing, osaühing, aktsiaselts, tulundusühistu, sihtasutus ja mittetulundusühing. Avalik-õiguslik juriidiline isik on riik, kohaliku omavalitsuse üksus ja muu juriidiline isik, mis on loodud avalikes huvides ja selle juriidilise isiku kohta käiva seaduse alusel.
+"
+15;kasutaja;;kasutaja;keskkonna kasutaja, kelle kontoga on seotud iseendaga või tema poolt esindatavad jur isiku taotlejakonto(d)
+16;kasutajakonto;;kasutaja;pääsuõiguse identifikaator, mis võimaldab süsteemil kasutaja autentida
+17;kirje;LAIEM;;organiseeritud andmeelementide kogum
+18;kontaktandmed;SEOTUD;kontaktandmed;kontakti saamiseks vajalikud andmed (e-mail: telefon: eraisiku või juriidilise isiku aadress)
+19;leping;KUULUB GRUPPI;taotlus/leping/aruanne;"Kultuurkapitali juhataja sõlmib eralduse saajaga eraldusotsuse alusel lepingu, välja arvatud regulaarse elutöötoetuse puhul. Loometöötasu saajaga sõlmitakse käsundusleping. Lepingus sätestatakse eralduse kasutamise täpsustatud tingimused, poolte õigused ja kohustused ning muud olulised tingimused. Lepinguid on nelja tüüpi: preemialeping ja stipendiumileping ( millega ei kaasne kohustust aruande esitamiseks), loometöötasu ja  sihtotstarbelise toetuse leping ( millega kaasneb aruande kohustus).
+"
+20;x;x;x;x

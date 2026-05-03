@@ -1,0 +1,122 @@
+ALGNE NR;ÄRISÕNASTIKU TERMIN;ANDMESÕNASTIKU TERMIN;Tabeli nimi;Välja nimi;Kommentaarid;SISULINE MÄRKUS;KOOSTAMISE MÄRKUSED
+39;kasutajakonto: kirje;kirje unikaalne identifikaator;accounts;id;primery key;;tehniline tunnus
+40;kasutajakonto;viide kasutajale, kes logib sisse;accounts;user_id;seos users.id;;Tehniline tunnus
+41;kasutajakonto ;konto omanik;accounts;account_name;taotleja nimetus;;Kas siin tabelis on ainult taotlejate kasutajakontote andmed? Kuna allpool on jah/ei väli selle kohta, siis tekkis kahtlus.
+42;kasutajakonto: jur isiku andmed;kasutajakonto juriidilisest isikust omaniku registrikood;accounts;registrycode;registrikood;;
+43;kasutajakonto: jur isiku andmed;kasutajakonto juriidilisest isikust omaniku tehingupartneri kood;accounts;partner_code;tehingupartneri kood;;
+44;kasutajakonto: allkirjastamisõigusega;kontro omaniku allkirjaõiguse märge;accounts;signature;allkirjastamisõigus: 1 - jah, 0 - ei;;Ei ole kasutuses
+45;kasutajakonto;juriidilisest isikust konto omaniku osakond;accounts;department;osakond;;
+46;kasutajakonto: aadressiandmed;konto omaniku aadress (ei ole kasutuses, eemaldame);accounts;address;aadress;;
+47;kasutajakonto: aadressiandmed;konto omaniku aadress – tänav;accounts;street_name;tänav;;
+48;kasutajakonto: aadressiandmed;konto omaniku aadress – maja number;accounts;street_number;tänava number;;
+49;kasutajakonto: aadressiandmed;konto omaniku aadress – linnaosa;accounts;borough;linnaosa;;
+50;kasutajakonto: aadressiandmed;konto omaniku aadress – linn;accounts;city;linn;;
+51;kasutajakonto: aadressiandmed;konto omaniku aadress – maakond;accounts;county;maakond;;
+52;kasutajakonto: aadressiandmed;konto omaniku aadress – sihtnumber;accounts;zip_code;sihtnumber;;
+53;kasutajakonto: aadressiandmed;konto omanikuaadress – riik;accounts;country;riik;;
+54;kasutajakonto: aadressiandmed;konto omaniku e-posti aadress;accounts;email;email;;
+55;kasutajakonto: aadressiandmed;konto omaniku telefoninumbri suunakood;accounts;phone_prefix;suunakood;;
+56;kasutajakonto: aadressiandmed;konto omaniku telefon;accounts;phone;telefon;;
+57;kasutajakonto;konto omaniku kontotüüp;accounts;account_type;kontotüüp: 1 - eraisik, 2 - juriidiline isik, 3 -Riigi- või avaliku sektori asutus, 4 - Välismaa juriidiline isik;;
+58;kasutajakonto;taotleja konto kustutamise märge;accounts;is_deleted;kustutatud: 1 - jah, 0 - ei;;
+59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus
+59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus
+59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus
+59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus
+59;kasutajakonto;kasutajakonto loomise kuupäev;accounts;created;loomise kuupäev;;tehniline tunnus
+60;kasutajakonto;kasutajakonto muutmise kuupäev;accounts;modified;muutmise kuupäev;;tehniline tunnus
+61;kasutajakonto;seos legent.id (seos jur isikuga);accounts;legent_id;seos legent.id;;tehniline tunnus
+62;kasutajakonto;kasutajakonto allkirjastamise õigus;accounts;is_signer;allkirjastaja: 1 - jah, 0 - ei;;Kas küsimus sellest, kas taotleja on allkirjastaja?
+63;kasutajakonto;kasutajakonto taotluse esitamise õigus;accounts;is_applicant;taotleja: 1 - jah, 0 - ei;0 ehk ei, on kõik need on juhtumid, kus kontosid pole, kuid kasutajal on äriregistri allkirjaõigused.;Kas accounts tabelis on ka teisi rolle peale taotleja?
+204;kirje;kirje unikaalne identifikaator;applications;id;primery key;;tehniline tunnus
+205;taotlus;viide kasutajale;applications;user_id;seos users.id, kasutaja id;;Tehniline tunnus
+206;taotlus;seos accounts.id, kasutajakonto id;applications;account_id;seos accounts.id, kasutajakonto id;;tehniline tunnus
+207;taotlus;seos sub_accounts.id, alamkonto id;applications;sub_account_id;seos sub_accounts.id, alamkonto id;;tehniline tunnus
+208;taotlus: pangakonto;viide pangakontole;applications;bank_account_id;seos bank_accounts.id, pangakonto id;;Tehniline tunnus
+209;taotlus: allkirjastamisõigus;viide allkirjastamisõigusele;applications;signatory_id;seos signature_allowed_people.id, allkirjastamisõiguse id;;Tehniline tunnus
+210;taotlus: taotluse variatsioon;viide taotluse variatsioonile;applications;application_variation_id;seos application_variations.id, variatsiooni id;;Tehniline tunnus
+211;taotlus: taotleja;taotleja nimi;applications;applicant_name;taotleja nimi;;
+212;taotlus: staatuste register;seos statuses.id, staatuse id;applications;status;seos statuses.id, staatuse id;;tehniline tunnus
+213;taotlus;taotluse mitmesse sihtkapitali esitamise märge;applications;is_multi;mitmesse sihtkapitali: 1 - jah, 0 - ei;;
+214;taotlus;viide taotluse tüübile;applications;application_type_id;seos application_types.id, taotlusetüübi ID;;tehniline tunnus
+215;taotlus;taotluse summa;applications;request_amount;taotluse summa;;
+216;taotlus;taotluse eesmärk;applications;title;taotluse eesmärk;;
+217;taotlus;taotluse postitatud pealkiri;applications;submit_title;postitatud pealkiri;;Kas õige?
+218;taotlus;serialiseeritud tekst taotluse sisuga;applications;filled_data;seraliseeritud text taotluse sisuga;;
+219;ei ole kasutusel ;serialiseeritud tekst aruande sisuga (ei ole kasutusel);applications;report_data;serialiseeritud tekst aruande sisuga;;Ei ole kasutuses
+220;taotlus: jaotus;taotluse esitamise jaotus/kvartal;applications;quarter;jaotus;;Filtreeri Välja nime veerust 'quarter' - kas need on tehnilised tunnused või kirjeldame? Mis on andmete sisu?
+221;taotlus;taotluse esitamise kuupäev;applications;submit_date;esitamise kuupäev;;
+222;taotlus;taotluse esitamise aja pikendamise märge;applications;submit_extended;esitamise aeg pikaendatud: 1 - jah, 0 - ei;;
+223;taotlus;taotluse esitatud toetuse kasutamise alguse periood;applications;start_period;alguse periood;;
+224;taotlus;taotluse esitatud toetuse kasutamise lõpuperiood;applications;end_period;lõpu periood;;
+225;;;applications;created;loomise kuupäev;;tehniline tunnus
+226;;;applications;modified;muutmise kuupäev;;tehniline tunnus
+227;taotlus: aplikatsiooni nr ;taotluse kehtivate versioonide number;applications;version;versioon;;Mis andmed taotluse versiooni kohta?
+228;ei ole kasutusel ;link taotluse PDF-failile (ei ole enam kasutusel);applications;pdf_link;link pdfile;;Ei ole kasutuses
+229;taotlus;taotluse esitamise aeg;applications;submitted_at;esitamise aeg;;
+230;taotlus;taotluse esitamise ja seejärel tagasivõtmise märge;applications;been_withdrawn;1 - taotlus on esitatud ja seejärel tagasi võetud;;
+231;taotlus;taotluse digiallkirjastamise märge;applications;is_digi_signature;digiallkirjastatud: 1 - jah, 0 - ei;;
+232;taotlus;taotluse kustutamise märge;applications;is_deleted;kustutatud: 1 - jah, 0 - ei;;
+233;taotlus;taotluse safis salvestamise märge;applications;saved_to_saf;salvestatud safi: 1 - jah, 0 - ei;;
+234;taotlus;taotluse safi salvestamise kuupäev;applications;saf_save_dt;safi salvestamise kuupäev;;
+235;taotlus;taotluse tagasisaatmise märge;applications;reverted_by_admin;admini poolt tagasi saadetud: 1 - jah, 0 - ei;;
+236;taotlus;taotluse safis kustutamise märge;applications;is_saf_deleted;safis kustutatud: 1 - jah, 0 - ei;;
+237;taotlus;taotluse kuude arv (loometöötasu kuude arv);applications;request_months;kuude arv;;
+238;taotlus: loometöötasu;autori- või esitajaõiguse alla kuuluva teose loometöötasu;applications;author_choice_field;Autori- või esitajaõigus;;Mis on andmete sisu?
+313;kirje;kirje unikaalne identifikaator;contracts;id;primery key;;
+314;taotlus;viide taotlusele;contracts;application_id;seos applications.id, taotluse ID;;
+315;allkirjastamisõigus;viide allkirjastamisõigusele;contracts;signatory_id;seos signature_allowed_people.id, allkirjastamisõiguse id;;
+316;sihtkapital;viide sihtkapitalile;contracts;project_financer_id;seos finance_foundations.id;;
+317;;seos project_catagories.id;contracts;grant_financer_id;seos project_catagories.id;;Kirjeldan hiljem
+318;taotlus;safis oleva taotluse identifikaator;contracts;saf_application_id;safis oleva taotluse ID;;
+319;leping;safis oleva lepingu identifikaator;contracts;saf_contract_id;safis oleva lepingu ID;;
+320;leping;lepingu number;contracts;contract_no;lepingu number;;
+321;fail;faili asukoht;contracts;file_source;faili asukoht;;
+322;protokoll;protokolli number;contracts;protocol_no;protokolli number;;
+323;leping;märge, kas leping on digiallkirjastatud;contracts;is_digi_signature;digiallkirjastatud: 1 - jah, 0 - ei;;
+324;leping;lepingu allkirjastamise teavituse saatmise kuupäev;contracts;notified_at;lepingu allkirjastamise teavituse saatmise kuupäev;;
+325;leping;märge, kas leping on kinnitatud;contracts;is_confirmed;kinnitatud: 1 - jah, 0 - ei;;
+326;leping;märge, kas leping on allkirjastatud;contracts;is_signed;allkirjastatud: 1 - jah, 0 - ei;;
+327;leping;lepingu lõpukuupäev;contracts;contract_end;lepingu lõpukuupäev;;
+328;leping;lepingu lõppemise põhjus;contracts;contract_end_reason;lepingu lõppemise põhjus;;
+329;leping;lepingu allkirjastamise kuupäev;contracts;signed_at;allkirjastamise kuupäev;;
+330;leping;märge, kas leping on esitatud;contracts;is_submitted;esitatud: 1 - jah, 0 - ei;;
+331;leping;märge, kas leping on safi salvestatud;contracts;saved_to_saf;safi salvestatud: 1 - jah, 0 - ei;;
+332;leping;lepingu safi salvestamise kuupäev;contracts;saf_save_dt;safi salvestamise kuupäev;;
+333;;;contracts;created;loomise kuupäev;;tehniline tunnus
+334;;;contracts;modified;muutmise kuupäev;;tehniline tunnus
+420;ekspert: kirje;kirje unikaalne identifikaator;experts;id;primery key;;tehniline tunnus
+421;ekspert;eksperdi eesnimi;experts;first_name;eesnimi;;
+422;ekspert;eksperdi perekonnanimi;experts;last_name;perekonnanimi;;
+423;ekspert: kontaktandmed;eksperdi e-posti aadress;experts;email;email;;Ei ole kasutuses
+424;ekspert;eksperdi parool;experts;password;parool;;
+425;ekspert;seos groups.id;experts;group_id;seos groups.id;1-user, 2-admin, 3-superadmin, 4-ekspert. (siin kõik 4);tehniline tunnus
+426;ekspert;eksperdi aktiivsuse märge;experts;is_active;aktiivne: 1 - jah, 0 - ei;;
+427;ekspert;eksperdi viimane sisselogimise aeg;experts;last_login;viimane sisselogimise aeg;;
+428;;;experts;created;loomise kuupäev;;tehniline tunnus
+429;;;experts;modified;muutmise kuupäev;;tehniline tunnus
+430;ekspert;eksperdi isikukood;experts;ik;isikukood;;
+431;ekspert;eksperd kustutatamise märge;experts;is_deleted;kustutatud: 1 - jah, 0 - ei;;
+432;kuraator: ekspert;eksperdi kuraatori rolli märge;experts;project_lead;projektijuht: 1 - jah, 0 - ei;;
+433;kuraator: ekspert;eksperdi kuraatorite administraatori rolli märge;experts;kuradmin;kuraator:1 - jah, 0 - ei;;
+500;jur isiku andmed: kirje;kirje unikaalne identifikaator;legent;id;primery key;;tehniline tunnus
+501;jur isiku andmed;juriidilise isiku nimi;legent;name;nimi;;Kelle andmed on tabelis legent?
+502;jur isiku andmed;registrikood;legent;registrycode;registrikood;;Kelle andmed on tabelis legent?
+503;jur isiku andmed;juriidilise isiku tehingupartneri kood;legent;partner_code;tehingupartneri kood;;Kelle andmed on tabelis legent?
+504;jur isiku andmed;juriidilise isiku aadress;legent;address;aadress;;Kelle andmed on tabelis legent?
+505;jur isiku andmed;tänava nimi;legent;street_name;tänava nimi;;Kelle andmed on tabelis legent?
+506;jur isiku andmed;tänava number;legent;street_number;tänava number;;Kelle andmed on tabelis legent?
+507;jur isiku andmed;juriidilise isiku aadressi osa - linnaosa;legent;borough;linnaosa;;
+508;jur isiku andmed;juriidilise isiku aadressi osa - linn;legent;city;linn;;
+509;jur isiku andmed;juriidilise isiku aadressi osa - maakond;legent;county;maakond;;
+510;jur isiku andmed;sihtnumber;legent;zip_code;sihtnumber;;Kelle andmed on tabelis legent?
+511;jur isiku andmed;riik;legent;country;riik;;Kelle andmed on tabelis legent?
+512;jur isiku andmed;juriidilise isiku email;legent;email;email;;Kelle andmed on tabelis legent?
+513;jur isiku andmed;suunakood;legent;phone_prefix;suunakood;;Kelle andmed on tabelis legent?
+514;jur isiku andmed;juriidilise isiku telefoninumber;legent;phone;telefoninumber;;Kelle andmed on tabelis legent?
+515;jur isiku andmed;taotleja kontotüüp;legent;account_type;kontotüüp;;Kelle andmed on tabelis legent?
+516;jur isiku andmed;juriidilise isiku andmete kustutamise märge;legent;is_deleted;kustutatud: 1 - jah, 0 - ei;kui ei ole seotud tegevusi;
+517;;;legent;created;loomise kuupäev;;tehniline tunnus
+518;;;legent;modified;muutmise kuupäev;;tehniline tunnus
+519;jur isiku andmed: staatus äriregstris;staatuse tähis;legent;status;staatuse tähis;;Kelle andmed on tabelis legent?
+520;jur isiku andmed: staatus äriregstris;staatuse tekst;legent;status_text;staatuse tekts;;Kelle andmed on tabelis legent?

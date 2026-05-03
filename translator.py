@@ -114,7 +114,7 @@ class Translator:
     column_term_relation_output_file = r'C:\Users\Administrator\Translator\col_term_rel_test.csv'
     connection = "none"
     owner = ""
-    color = "red"
+    color = ""
     schema = "public"
 
     # Specify structure of output files
@@ -323,7 +323,7 @@ class Translator:
                 continue
 
             #Resolve business term list and create term relations
-            source_term_list = str(row['ÄRISÕNASTIKU TERMIN']).split(':')
+            source_term_list = str(row['ÄRISÕNASTIKU TERMIN']).split(',')
 
             for source_term in source_term_list:
                 st = str(source_term).strip()
