@@ -1,4 +1,24 @@
-import translator
+import tkinter as tk
+from controller import Controller
+
+
+def main():
+    root = tk.Tk()
+    controller = Controller(root)
+    controller.start()
+    root.mainloop()
+
+
+if __name__ == '__main__':
+    main()
+
+
+# ------------------------------------------------------------------ #
+# Legacy CLI code preserved for reference during migration
+# ------------------------------------------------------------------ #
+
+import translator  # noqa: E402
+
 
 def display_change_settings(tr_obj):
     print("\n" * 50)
