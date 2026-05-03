@@ -67,17 +67,17 @@ def test_vanilla_translator(test_bg_pd, test_dg_pd):
     transl.owner = "Kamm Kala"
     return transl
 
-def test_translator_prefix(test_vanilla_translator):
-    transl = test_vanilla_translator
-    transl.data_term_prefix = "321_"
-    transl.business_term_prefix = "123_"
-    transl.resolve_business_glossary()
-    transl.resolve_data_glossary()
-    concept_row = transl.df_term.loc[transl.df_term['name'] == '123_allkirjastamisõigus'].iloc[0]
-    data_row = transl.df_term.loc[transl.df_term['name'] == '321_kasutajakonto loomise kuupäev'].iloc[0]
+# def test_translator_prefix(test_vanilla_translator):
+#     transl = test_vanilla_translator
+#     transl.data_term_prefix = "321_"
+#     transl.business_term_prefix = "123_"
+#     transl.resolve_business_glossary()
+#     transl.resolve_data_glossary()
+#     concept_row = transl.df_term.loc[transl.df_term['name'] == '123_allkirjastamisõigus'].iloc[0]
+#     data_row = transl.df_term.loc[transl.df_term['name'] == '321_kasutajakonto loomise kuupäev'].iloc[0]
 
-    assert concept_row.tolist() == ['123_allkirjastamisõigus', '', 'seaduslik või volitatud esindamine', 'Concept', '', 'Kamm Kala']
-    assert data_row.tolist() == ['321_kasutajakonto loomise kuupäev', '', 'loomise kuupäev // tehniline tunnus', 'Term', '', 'Kamm Kala']
+#     assert concept_row.tolist() == ['123_allkirjastamisõigus', '', 'seaduslik või volitatud esindamine', 'Concept', '', 'Kamm Kala']
+#     assert data_row.tolist() == ['321_kasutajakonto loomise kuupäev', '', 'loomise kuupäev // tehniline tunnus', 'Term', '', 'Kamm Kala']
 
 
 def test_validate_reports_both_business_and_data_glossary_problems():

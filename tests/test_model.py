@@ -145,6 +145,28 @@ def test_process_success_returns_processed_data(model):
     assert not resp.data.df_term.empty
 
 
+def test_process_applies_selectzero_target_config_to_preview_data(model):
+    target_adapter = SelectZeroAdapter()
+    target_adapter._connection = 'warehouse'
+    target_adapter._schema = 'analytics'
+    target_adapter._owner = 'Data Steward'
+    target_adapter._color = 'gold'
+
+    req = ProcessRequest(
+        source_paths={'business_glossary': VALID_BG, 'data_glossary': VALID_DG},
+        source_adapter=StatisticsEstoniaAdapter(),
+        target_adapter=target_adapter,
+    )
+
+    resp = model.process(req)
+
+    assert resp.success is True
+    assert set(resp.data.df_term['color']) == {'gold'}
+    assert set(resp.data.df_term['owner']) == {'Data Steward'}
+    assert set(resp.data.df_col_term_rel['connection']) == {'warehouse'}
+    assert set(resp.data.df_col_term_rel['schema']) == {'analytics'}
+
+
 def test_process_returns_schema_errors(model, tmp_path):
     bad_bg = tmp_path / 'bad_business.csv'
     bad_bg.write_text('MÕISTE_ET\nterm\n', encoding='utf-8')

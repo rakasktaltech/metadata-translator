@@ -12,6 +12,28 @@ from messages import (
 
 class TranslationModel:
 
+    @staticmethod
+    def _apply_target_config(data, target_adapter):
+        config = target_adapter.get_config()
+
+        df_term = data.df_term.copy()
+        df_col_term_rel = data.df_col_term_rel.copy()
+        df_term_rel = data.df_term_rel.copy()
+
+        for column in ('color', 'owner'):
+            if column in df_term.columns:
+                df_term[column] = config.get(column, '')
+
+        for column in ('connection', 'schema'):
+            if column in df_col_term_rel.columns:
+                df_col_term_rel[column] = config.get(column, '')
+
+        return data._replace(
+            df_term=df_term,
+            df_col_term_rel=df_col_term_rel,
+            df_term_rel=df_term_rel,
+        )
+
     def validate_input_file(self, req: FileValidationRequest) -> FileValidationResponse:
         path = req.path
         if not os.path.isabs(path):
@@ -73,5 +95,7 @@ class TranslationModel:
             data = req.source_adapter.process_sources(source_dfs)
         except Exception as exc:
             return ProcessResponse(success=False, errors=[f"Processing error: {exc}"], data=None)
+
+        data = self._apply_target_config(data, req.target_adapter)
 
         return ProcessResponse(success=True, errors=[], data=data)
