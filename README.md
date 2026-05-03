@@ -17,13 +17,11 @@ Use this option if you already have a built `dist` folder.
 ### What you need
 
 - Windows
-- the full `dist\\main` directory produced by PyInstaller
-
-Do not copy only `main.exe`. Keep the entire `dist\\main` folder together.
+- dist.zip from the latest release`
 
 ### How to run
 
-1. Open the project folder in File Explorer.
+1. Extract `dist.zip` to a location of your choice. 
 2. Open `dist\\main`.
 3. Double-click `main.exe`.
 
