@@ -156,11 +156,10 @@ def test_on_preview_accepted_stores_data_and_shows_stage_4_stub(controller):
     controller.source_paths = {'business_glossary': VALID_BG, 'data_glossary': VALID_DG}
     controller.on_translate()
 
-    with patch('controller.messagebox.showinfo') as showinfo:
-        controller.on_preview_accepted()
+    controller.on_preview_accepted()
 
     assert controller.pending_data is not None
-    showinfo.assert_called_once_with('Stage 4', 'Stage 4 coming soon.')
+    assert controller.root.title() == 'Data Catalog Translator — Save Output Files'
 
 
 def test_on_preview_rejected_returns_to_settings_and_clears_pending_data(controller):
@@ -175,3 +174,40 @@ def test_on_preview_rejected_returns_to_settings_and_clears_pending_data(control
 
     assert controller.pending_data is None
     assert controller.root.title() == 'Data Catalog Translator — Settings'
+
+
+def test_on_write_shows_error_for_duplicate_source_and_output_paths(controller, tmp_path):
+    controller.current_frame = MagicMock()
+    controller.source_paths = {'business_glossary': VALID_BG, 'data_glossary': VALID_DG}
+    controller.pending_data = object()
+    controller.target_adapter = SelectZeroAdapter()
+
+    controller.on_write({
+        'terms': VALID_BG,
+        'col_term_rel': str(tmp_path / 'col_term_rel.csv'),
+        'term_rel': str(tmp_path / 'term_rel.csv'),
+    })
+
+    controller.current_frame.show_error.assert_called_once_with('Source and output paths must all be distinct')
+
+
+def test_on_write_writes_files_and_destroys_root(controller, tmp_path):
+    controller.source_adapter = StatisticsEstoniaAdapter()
+    controller.target_adapter = SelectZeroAdapter()
+    controller.target_adapter.set_config(ConfigSetRequest('connection', 'demo_connection'))
+    controller.source_paths = {'business_glossary': VALID_BG, 'data_glossary': VALID_DG}
+    controller.on_translate()
+    controller.on_preview_accepted()
+
+    target_paths = {
+        'terms': str(tmp_path / 'terms.csv'),
+        'col_term_rel': str(tmp_path / 'col_term_rel.csv'),
+        'term_rel': str(tmp_path / 'term_rel.csv'),
+    }
+
+    with patch('controller.messagebox.showinfo') as showinfo, patch.object(controller.root, 'destroy') as destroy:
+        controller.on_write(target_paths)
+
+    showinfo.assert_called_once()
+    destroy.assert_called_once()
+    assert (tmp_path / 'terms.csv').exists()

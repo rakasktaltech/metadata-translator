@@ -1,6 +1,8 @@
 import pytest
+import pandas as pd
 from adapters import SelectZeroAdapter
 from messages import ConfigSetRequest
+from messages import ProcessedGlossaryData
 
 
 @pytest.fixture
@@ -92,3 +94,44 @@ def test_set_color_max_length_is_valid(sz):
 def test_set_unknown_param(sz):
     resp = sz.set_config(ConfigSetRequest('nonexistent', 'val'))
     assert resp.success is False
+
+
+def test_write_output_writes_expected_csv_columns(sz, tmp_path):
+    data = ProcessedGlossaryData(
+        df_term=pd.DataFrame([{
+            'name': 'term_a',
+            'color': 'blue',
+            'description': 'desc',
+            'type': 'Term',
+            'domain': '',
+            'owner': 'owner_a',
+        }]),
+        df_col_term_rel=pd.DataFrame([{
+            'connection': 'conn',
+            'schema': 'public',
+            'object': 'table_a',
+            'column': 'column_a',
+            'term': 'term_a',
+        }]),
+        df_term_rel=pd.DataFrame([{
+            'sourceName': 'concept_a',
+            'relation': 'Related to',
+            'targetName': 'term_a',
+        }]),
+    )
+    target_paths = {
+        'terms': str(tmp_path / 'terms.csv'),
+        'col_term_rel': str(tmp_path / 'col_term_rel.csv'),
+        'term_rel': str(tmp_path / 'term_rel.csv'),
+    }
+
+    sz.write_output(data, target_paths)
+
+    terms_df = pd.read_csv(target_paths['terms'], sep=';', encoding='utf-8')
+    col_term_rel_df = pd.read_csv(target_paths['col_term_rel'], sep=';', encoding='utf-8')
+    term_rel_df = pd.read_csv(target_paths['term_rel'], sep=';', encoding='utf-8')
+
+    assert list(terms_df.columns) == sz.output_columns('terms')
+    assert list(col_term_rel_df.columns) == sz.output_columns('col_term_rel')
+    assert list(term_rel_df.columns) == sz.output_columns('term_rel')
+    assert terms_df.iloc[0]['name'] == 'term_a'

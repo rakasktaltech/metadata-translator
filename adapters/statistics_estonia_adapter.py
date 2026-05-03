@@ -320,7 +320,112 @@ class StatisticsEstoniaAdapter(BaseSourceAdapter, BaseTargetAdapter):
         }
 
     def output_columns(self, file_key: str) -> list:
-        raise NotImplementedError("output_columns (as target) will be implemented in Stage 4")
+        columns = {
+            'business_glossary': [
+                'MÕISTE_ET',
+                'SEOSE TÜÜP',
+                'SEOTUD MÕISTE',
+                'MÄÄRATLUS VÕI SELGITUS_ET',
+            ],
+            'data_glossary': [
+                'ÄRISÕNASTIKU TERMIN',
+                'ANDMESÕNASTIKU TERMIN',
+                'Tabeli nimi',
+                'Välja nimi',
+                'Kommentaarid',
+                'KOOSTAMISE MÄRKUSED',
+            ],
+        }
+        return columns.get(file_key, [])
 
     def write_output(self, data, target_paths: dict):
-        raise NotImplementedError("write_output will be implemented in Stage 4")
+        business_df = self._build_business_glossary_output(data)
+        data_df = self._build_data_glossary_output(data)
+
+        business_df.to_csv(
+            target_paths['business_glossary'],
+            index=False,
+            sep=';',
+            encoding='utf-8',
+        )
+        data_df.to_csv(
+            target_paths['data_glossary'],
+            index=False,
+            sep=';',
+            encoding='utf-8',
+        )
+
+    def _build_business_glossary_output(self, data) -> pd.DataFrame:
+        concept_rows = data.df_term[data.df_term['type'] == 'Concept'].fillna("")
+        concept_names = set(concept_rows['name'].tolist())
+        relation_map = {
+            'Belongs to group': 'KUULUB GRUPPI',
+            'Related to': 'SEOTUD',
+            'Child of': 'LAIEM',
+            'Parent of': 'KITSAM',
+        }
+
+        descriptions = concept_rows.set_index('name')['description'].to_dict()
+        relation_rows = []
+        seen_sources = set()
+
+        for _, row in data.df_term_rel.fillna("").iterrows():
+            source_name = row['sourceName']
+            target_name = row['targetName']
+            if source_name not in concept_names or target_name not in concept_names:
+                continue
+
+            relation = relation_map.get(row['relation'])
+            if relation is None:
+                continue
+
+            seen_sources.add(source_name)
+            relation_rows.append({
+                'MÕISTE_ET': source_name,
+                'SEOSE TÜÜP': relation,
+                'SEOTUD MÕISTE': target_name,
+                'MÄÄRATLUS VÕI SELGITUS_ET': descriptions.get(source_name, ''),
+            })
+
+        for _, row in concept_rows.iterrows():
+            if row['name'] in seen_sources:
+                continue
+            relation_rows.append({
+                'MÕISTE_ET': row['name'],
+                'SEOSE TÜÜP': '',
+                'SEOTUD MÕISTE': '',
+                'MÄÄRATLUS VÕI SELGITUS_ET': row['description'],
+            })
+
+        return pd.DataFrame(relation_rows, columns=self.output_columns('business_glossary'))
+
+    def _build_data_glossary_output(self, data) -> pd.DataFrame:
+        term_rows = data.df_term[data.df_term['type'] == 'Term'].fillna("")
+        term_names = set(term_rows['name'].tolist())
+        concept_names = set(data.df_term[data.df_term['type'] == 'Concept'].fillna("")['name'].tolist())
+        descriptions = term_rows.groupby('name')['description'].first().to_dict()
+
+        business_links = {}
+        for _, row in data.df_term_rel.fillna("").iterrows():
+            source_name = row['sourceName']
+            target_name = row['targetName']
+            if row['relation'] != 'Related to':
+                continue
+            if source_name not in concept_names or target_name not in term_names:
+                continue
+            business_links.setdefault(target_name, []).append(source_name)
+
+        rows = []
+        for _, row in data.df_col_term_rel.fillna("").iterrows():
+            term_name = row['term']
+            linked_terms = business_links.get(term_name, [])
+            rows.append({
+                'ÄRISÕNASTIKU TERMIN': ', '.join(dict.fromkeys(linked_terms)),
+                'ANDMESÕNASTIKU TERMIN': term_name,
+                'Tabeli nimi': row['object'],
+                'Välja nimi': row['column'],
+                'Kommentaarid': descriptions.get(term_name, ''),
+                'KOOSTAMISE MÄRKUSED': '',
+            })
+
+        return pd.DataFrame(rows, columns=self.output_columns('data_glossary'))

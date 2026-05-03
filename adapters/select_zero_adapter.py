@@ -90,4 +90,12 @@ class SelectZeroAdapter(BaseSourceAdapter, BaseTargetAdapter):
         return ConfigSetResponse(success=False, error=f"Unknown parameter: '{param}'")
 
     def write_output(self, data, target_paths: dict):
-        raise NotImplementedError("write_output will be implemented in Stage 4")
+        frame_by_key = {
+            'terms': data.df_term,
+            'col_term_rel': data.df_col_term_rel,
+            'term_rel': data.df_term_rel,
+        }
+
+        for file_key, path in target_paths.items():
+            dataframe = frame_by_key[file_key].reindex(columns=self.output_columns(file_key)).fillna("")
+            dataframe.to_csv(path, index=False, sep=';', encoding='utf-8')

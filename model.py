@@ -7,6 +7,7 @@ from messages import (
     FileValidationRequest, FileValidationResponse,
     ReadinessResponse, ProcessResponse,
     SchemaValidationRequest,
+    WriteOutputResponse,
 )
 
 
@@ -99,3 +100,15 @@ class TranslationModel:
         data = self._apply_target_config(data, req.target_adapter)
 
         return ProcessResponse(success=True, errors=[], data=data)
+
+    def write_output(self, req) -> WriteOutputResponse:
+        try:
+            req.target_adapter.write_output(req.data, req.target_paths)
+        except Exception as exc:
+            return WriteOutputResponse(success=False, errors=[f"Write error: {exc}"], output_files=[])
+
+        return WriteOutputResponse(
+            success=True,
+            errors=[],
+            output_files=list(req.target_paths.values()),
+        )

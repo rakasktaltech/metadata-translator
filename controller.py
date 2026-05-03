@@ -2,9 +2,16 @@ import tkinter as tk
 from tkinter import messagebox
 
 from adapters import BaseSourceAdapter, BaseTargetAdapter  # also registers subclasses
-from messages import FileValidationRequest, ReadinessRequest, ProcessRequest, ConfigSetRequest
+from messages import (
+    FileValidationRequest,
+    ReadinessRequest,
+    ProcessRequest,
+    ConfigSetRequest,
+    WriteOutputRequest,
+)
 from model import TranslationModel
 from gui.adapter_selection_window import AdapterSelectionWindow
+from gui.output_selection_window import OutputSelectionWindow
 from gui.preview_window import PreviewWindow
 from gui.settings_window import SettingsWindow
 
@@ -105,6 +112,15 @@ class Controller:
         frame.show()
         self.current_frame = frame
 
+    def show_output_selection(self):
+        if self.current_frame is not None:
+            self.current_frame.destroy()
+            self.current_frame = None
+        self.root.title("Data Catalog Translator \u2014 Save Output Files")
+        frame = OutputSelectionWindow(self.root, self)
+        frame.show()
+        self.current_frame = frame
+
     def get_source_adapter_config(self) -> dict:
         return self.source_adapter.get_config()
 
@@ -147,8 +163,48 @@ class Controller:
     def on_preview_accepted(self):
         if isinstance(self.current_frame, PreviewWindow):
             self.pending_data = self.current_frame._data
-        messagebox.showinfo("Stage 4", "Stage 4 coming soon.")
+        if self.pending_data is None:
+            return
+        self.show_output_selection()
 
     def on_preview_rejected(self):
         self.pending_data = None
         self.show_settings()
+
+    def on_output_back(self):
+        if self.pending_data is not None:
+            self.show_preview(self.pending_data)
+
+    def on_write(self, target_paths: dict):
+        for file_key, path in target_paths.items():
+            if not path:
+                self.current_frame.show_error(f"Output file path for '{file_key}' is empty")
+                return
+
+        combined_paths = list(self.source_paths.values()) + list(target_paths.values())
+        if len(set(combined_paths)) != len(combined_paths):
+            self.current_frame.show_error("Source and output paths must all be distinct")
+            return
+
+        for path in target_paths.values():
+            req = FileValidationRequest(path=path, file_type='output')
+            resp = self.model.validate_output_file(req)
+            if not resp.valid:
+                self.current_frame.show_error(resp.error)
+                return
+
+        write_req = WriteOutputRequest(
+            data=self.pending_data,
+            target_paths=target_paths,
+            target_adapter=self.target_adapter,
+        )
+        write_resp = self.model.write_output(write_req)
+        if not write_resp.success:
+            self.current_frame.show_error("\n".join(write_resp.errors))
+            return
+
+        messagebox.showinfo(
+            "Output written",
+            "Files written:\n" + "\n".join(write_resp.output_files),
+        )
+        self.root.destroy()

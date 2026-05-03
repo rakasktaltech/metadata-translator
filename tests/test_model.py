@@ -2,7 +2,7 @@ import os
 import pytest
 import pandas as pd
 from adapters import SelectZeroAdapter, StatisticsEstoniaAdapter
-from messages import FileValidationRequest, ProcessRequest, ReadinessRequest
+from messages import FileValidationRequest, ProcessRequest, ReadinessRequest, WriteOutputRequest
 from model import TranslationModel
 
 
@@ -242,3 +242,46 @@ def test_process_supports_semicolon_delimited_temp_files(model, tmp_path):
 
     assert resp.success is True
     assert 'term a' in resp.data.df_term['name'].tolist()
+
+
+# --- Stage 4 write_output ---
+
+def test_write_output_writes_selectzero_files(model, tmp_path):
+    target_adapter = SelectZeroAdapter()
+    target_adapter.set_config(type('Req', (), {'parameter': 'connection', 'value': 'warehouse'})())
+
+    process_resp = model.process(ProcessRequest(
+        source_paths={'business_glossary': VALID_BG, 'data_glossary': VALID_DG},
+        source_adapter=StatisticsEstoniaAdapter(),
+        target_adapter=target_adapter,
+    ))
+
+    target_paths = {
+        'terms': str(tmp_path / 'terms.csv'),
+        'col_term_rel': str(tmp_path / 'col_term_rel.csv'),
+        'term_rel': str(tmp_path / 'term_rel.csv'),
+    }
+    write_resp = model.write_output(WriteOutputRequest(process_resp.data, target_paths, target_adapter))
+
+    assert write_resp.success is True
+    assert write_resp.output_files == list(target_paths.values())
+    assert (tmp_path / 'terms.csv').exists()
+    assert (tmp_path / 'col_term_rel.csv').exists()
+    assert (tmp_path / 'term_rel.csv').exists()
+
+
+def test_write_output_returns_error_when_adapter_raises(model, tmp_path):
+    class ExplodingTargetAdapter:
+
+        def write_output(self, data, target_paths):
+            raise RuntimeError('disk full')
+
+    write_resp = model.write_output(WriteOutputRequest(
+        data=object(),
+        target_paths={'terms': str(tmp_path / 'terms.csv')},
+        target_adapter=ExplodingTargetAdapter(),
+    ))
+
+    assert write_resp.success is False
+    assert write_resp.output_files == []
+    assert write_resp.errors == ['Write error: disk full']
