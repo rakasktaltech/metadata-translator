@@ -409,3 +409,4 @@ class Translator:
 
         print("\n" * 50)
         print("Translation successful, files ready for use!")
+
