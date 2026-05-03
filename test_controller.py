@@ -10,6 +10,7 @@ from unittest.mock import MagicMock, patch
 from controller import Controller
 from adapters import StatisticsEstoniaAdapter, SelectZeroAdapter
 from messages import ConfigSetRequest
+from gui.preview_window import PreviewWindow
 
 
 WORKSPACE = os.path.dirname(os.path.abspath(__file__))
@@ -133,16 +134,44 @@ def test_on_adapters_selected_second_invalid_path_shows_error(controller):
     assert controller.source_adapter is None
 
 
-def test_on_translate_success_stores_pending_data_and_shows_stub(controller):
-    controller.current_frame = MagicMock()
+def test_on_translate_success_shows_preview_without_storing_pending_data(controller):
+    settings_frame = MagicMock()
+    controller.current_frame = settings_frame
     controller.source_adapter = StatisticsEstoniaAdapter()
     controller.target_adapter = SelectZeroAdapter()
     controller.target_adapter.set_config(ConfigSetRequest('connection', 'demo_connection'))
     controller.source_paths = {'business_glossary': VALID_BG, 'data_glossary': VALID_DG}
 
-    with patch('controller.messagebox.showinfo') as showinfo:
-        controller.on_translate()
+    controller.on_translate()
 
-    controller.current_frame.show_error.assert_not_called()
+    settings_frame.show_error.assert_not_called()
+    assert isinstance(controller.current_frame, PreviewWindow)
+    assert controller.pending_data is None
+
+
+def test_on_preview_accepted_stores_data_and_shows_stage_4_stub(controller):
+    controller.source_adapter = StatisticsEstoniaAdapter()
+    controller.target_adapter = SelectZeroAdapter()
+    controller.target_adapter.set_config(ConfigSetRequest('connection', 'demo_connection'))
+    controller.source_paths = {'business_glossary': VALID_BG, 'data_glossary': VALID_DG}
+    controller.on_translate()
+
+    with patch('controller.messagebox.showinfo') as showinfo:
+        controller.on_preview_accepted()
+
     assert controller.pending_data is not None
-    showinfo.assert_called_once_with('Stage 3', 'Stage 3 not yet implemented.')
+    showinfo.assert_called_once_with('Stage 4', 'Stage 4 coming soon.')
+
+
+def test_on_preview_rejected_returns_to_settings_and_clears_pending_data(controller):
+    controller.source_adapter = StatisticsEstoniaAdapter()
+    controller.target_adapter = SelectZeroAdapter()
+    controller.target_adapter.set_config(ConfigSetRequest('connection', 'demo_connection'))
+    controller.source_paths = {'business_glossary': VALID_BG, 'data_glossary': VALID_DG}
+    controller.pending_data = object()
+    controller.on_translate()
+
+    controller.on_preview_rejected()
+
+    assert controller.pending_data is None
+    assert controller.root.title() == 'Data Catalog Translator — Settings'

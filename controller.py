@@ -5,6 +5,7 @@ from adapters import BaseSourceAdapter, BaseTargetAdapter  # also registers subc
 from messages import FileValidationRequest, ReadinessRequest, ProcessRequest, ConfigSetRequest
 from model import TranslationModel
 from gui.adapter_selection_window import AdapterSelectionWindow
+from gui.preview_window import PreviewWindow
 from gui.settings_window import SettingsWindow
 
 
@@ -95,6 +96,15 @@ class Controller:
         frame.show()
         self.current_frame = frame
 
+    def show_preview(self, data):
+        if self.current_frame is not None:
+            self.current_frame.destroy()
+            self.current_frame = None
+        self.root.title("Data Catalog Translator \u2014 Translation Preview")
+        frame = PreviewWindow(self.root, self, data)
+        frame.show()
+        self.current_frame = frame
+
     def get_source_adapter_config(self) -> dict:
         return self.source_adapter.get_config()
 
@@ -132,6 +142,13 @@ class Controller:
             self.current_frame.show_error("\n".join(process_resp.errors))
             return
 
-        self.pending_data = process_resp.data
-        # Stage 2 stub — Stage 3 replaces this with self.show_preview(self.pending_data)
-        messagebox.showinfo("Stage 3", "Stage 3 not yet implemented.")
+        self.show_preview(process_resp.data)
+
+    def on_preview_accepted(self):
+        if isinstance(self.current_frame, PreviewWindow):
+            self.pending_data = self.current_frame._data
+        messagebox.showinfo("Stage 4", "Stage 4 coming soon.")
+
+    def on_preview_rejected(self):
+        self.pending_data = None
+        self.show_settings()
