@@ -1,6 +1,7 @@
 import os
 import pytest
-from messages import FileValidationRequest
+from adapters import SelectZeroAdapter, StatisticsEstoniaAdapter
+from messages import FileValidationRequest, ProcessRequest, ReadinessRequest
 from model import TranslationModel
 
 
@@ -99,3 +100,45 @@ def test_output_no_directory_component(model, tmp_path):
     os.chdir(tmp_path)
     resp = model.validate_output_file(FileValidationRequest('out.csv', 'output'))
     assert resp.valid is True
+
+
+# --- Stage 2 readiness / process ---
+
+def test_check_readiness_requires_connection_and_paths(model):
+    resp = model.check_readiness(ReadinessRequest(
+        source_paths={'business_glossary': VALID_BG, 'data_glossary': ''},
+        connection='',
+    ))
+    assert resp.ready is False
+    assert any('data_glossary' in error for error in resp.errors)
+    assert any('Connection name is required' in error for error in resp.errors)
+
+
+def test_process_success_returns_processed_data(model):
+    req = ProcessRequest(
+        source_paths={'business_glossary': VALID_BG, 'data_glossary': VALID_DG},
+        source_adapter=StatisticsEstoniaAdapter(),
+        target_adapter=SelectZeroAdapter(),
+    )
+    resp = model.process(req)
+    assert resp.success is True
+    assert resp.errors == []
+    assert list(resp.data.df_term.columns) == ['name', 'color', 'description', 'type', 'domain', 'owner']
+    assert list(resp.data.df_col_term_rel.columns) == ['connection', 'schema', 'object', 'column', 'term']
+    assert list(resp.data.df_term_rel.columns) == ['sourceName', 'relation', 'targetName']
+    assert not resp.data.df_term.empty
+
+
+def test_process_returns_schema_errors(model, tmp_path):
+    bad_bg = tmp_path / 'bad_business.csv'
+    bad_bg.write_text('MÕISTE_ET\nterm\n', encoding='utf-8')
+
+    req = ProcessRequest(
+        source_paths={'business_glossary': str(bad_bg), 'data_glossary': VALID_DG},
+        source_adapter=StatisticsEstoniaAdapter(),
+        target_adapter=SelectZeroAdapter(),
+    )
+    resp = model.process(req)
+    assert resp.success is False
+    assert resp.data is None
+    assert any('Missing required columns from Business Glossary' in error for error in resp.errors)

@@ -9,6 +9,7 @@ from unittest.mock import MagicMock, patch
 
 from controller import Controller
 from adapters import StatisticsEstoniaAdapter, SelectZeroAdapter
+from messages import ConfigSetRequest
 
 
 WORKSPACE = os.path.dirname(os.path.abspath(__file__))
@@ -130,3 +131,18 @@ def test_on_adapters_selected_second_invalid_path_shows_error(controller):
     )
     controller.current_frame.show_error.assert_called_once()
     assert controller.source_adapter is None
+
+
+def test_on_translate_success_stores_pending_data_and_shows_stub(controller):
+    controller.current_frame = MagicMock()
+    controller.source_adapter = StatisticsEstoniaAdapter()
+    controller.target_adapter = SelectZeroAdapter()
+    controller.target_adapter.set_config(ConfigSetRequest('connection', 'demo_connection'))
+    controller.source_paths = {'business_glossary': VALID_BG, 'data_glossary': VALID_DG}
+
+    with patch('controller.messagebox.showinfo') as showinfo:
+        controller.on_translate()
+
+    controller.current_frame.show_error.assert_not_called()
+    assert controller.pending_data is not None
+    showinfo.assert_called_once_with('Stage 3', 'Stage 3 not yet implemented.')

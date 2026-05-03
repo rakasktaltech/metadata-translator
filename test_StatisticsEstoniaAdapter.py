@@ -120,3 +120,32 @@ def test_validate_schema_missing_file_key(sa):
                                    'Tabeli nimi', 'Välja nimi', 'Kommentaarid', 'KOOSTAMISE MÄRKUSED'])
     resp = sa.validate_schema(SchemaValidationRequest({'data_glossary': df_dg}))  # no business_glossary key
     assert resp.valid is False
+
+
+def test_process_sources_deduplicates_business_terms_and_keeps_relations(sa):
+    df_bg = pd.DataFrame([
+        {
+            'MÕISTE_ET': 'Alpha',
+            'SEOSE TÜÜP': 'SEOTUD',
+            'SEOTUD MÕISTE': 'Beta',
+            'MÄÄRATLUS VÕI SELGITUS_ET': 'first description',
+        },
+        {
+            'MÕISTE_ET': 'Alpha',
+            'SEOSE TÜÜP': pd.NA,
+            'SEOTUD MÕISTE': pd.NA,
+            'MÄÄRATLUS VÕI SELGITUS_ET': 'duplicate description',
+        },
+    ])
+    df_dg = pd.DataFrame(columns=['ÄRISÕNASTIKU TERMIN', 'ANDMESÕNASTIKU TERMIN',
+                                  'Tabeli nimi', 'Välja nimi', 'Kommentaarid', 'KOOSTAMISE MÄRKUSED'])
+
+    data = sa.process_sources({'business_glossary': df_bg, 'data_glossary': df_dg})
+
+    concept_rows = data.df_term[data.df_term['type'] == 'Concept']
+    assert concept_rows['name'].tolist() == ['alpha']
+    assert data.df_term_rel.to_dict('records') == [{
+        'sourceName': 'alpha',
+        'relation': 'Related to',
+        'targetName': 'beta',
+    }]
