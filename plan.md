@@ -111,7 +111,7 @@ Each stage replaces the missing next window with a stub dialog so the app is alw
 | File | Contents |
 |---|---|
 | `gui/output_selection_window.py` | Full Window 4: dynamic output-path rows (one per `required_target_files` key), Browse uses `asksaveasfilename`, inline error label, Back and Write buttons; success → `messagebox.showinfo` listing written paths → `root.destroy()` |
-| `test_model.py` | pytest unit tests covering: `validate_input_file` (valid + invalid cases), `validate_output_file` (valid + overwrite + bad ext), `check_readiness`, `process` with sample CSVs, `StatisticsEstoniaAdapter.set_config` (valid/invalid values), `validate_schema` (missing columns) |
+| `tests/test_model.py` | pytest unit tests covering: `validate_input_file` (valid + invalid cases), `validate_output_file` (valid + overwrite + bad ext), `check_readiness`, `process` with sample CSVs, `StatisticsEstoniaAdapter.set_config` (valid/invalid values), `validate_schema` (missing columns) |
 
 ### Modified files
 
@@ -126,7 +126,7 @@ Each stage replaces the missing next window with a stub dialog so the app is alw
 - `python main.py` — full end-to-end run writes 3 CSV files
 - Success dialog lists all 3 file paths; dismissing it closes the app
 - Attempt to write to existing file → inline error, no overwrite
-- `pytest test_model.py` — all tests pass
+- `pytest tests/test_model.py` — all tests pass
 
 ---
 
@@ -151,8 +151,10 @@ hobby_projects/
 │   ├── settings_window.py
 │   ├── preview_window.py
 │   └── output_selection_window.py
-├── test_model.py                            # New pytest suite
-├── test_translator.py                       # Existing tests (kept, not deleted)
+├── tests/
+│   ├── conftest.py
+│   ├── test_model.py                        # New pytest suite
+│   └── test_translator.py                   # Existing tests (kept, not deleted)
 ├── test_business_glossary.csv
 ├── test_data_glossary.csv
 └── test archive/
@@ -165,4 +167,4 @@ hobby_projects/
 
 - `translator.py` and the old `main.py` console loop are superseded by the new architecture but `translator.py` is kept as reference until Stage 4 is complete
 - `SelectZeroAdapter.process_sources` (reading SelectZero CSVs as a source format) is scaffolded in Stage 1 but left raising `NotImplementedError` — no sample SelectZero input files exist to test against
-- `test_translator.py` remains and continues to pass throughout all stages; it is not deleted
+- `tests/test_translator.py` remains and continues to pass throughout all stages; it is not deleted

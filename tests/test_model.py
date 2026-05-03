@@ -1,11 +1,12 @@
 import os
 import pytest
+import pandas as pd
 from adapters import SelectZeroAdapter, StatisticsEstoniaAdapter
 from messages import FileValidationRequest, ProcessRequest, ReadinessRequest
 from model import TranslationModel
 
 
-WORKSPACE = os.path.dirname(os.path.abspath(__file__))
+WORKSPACE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VALID_BG = os.path.join(WORKSPACE, 'test_business_glossary.csv')
 VALID_DG = os.path.join(WORKSPACE, 'test_data_glossary.csv')
 
@@ -94,12 +95,18 @@ def test_output_file_already_exists(model):
     assert 'exists' in resp.error.lower()
 
 
-def test_output_no_directory_component(model, tmp_path):
+def test_output_no_directory_component(model, tmp_path, monkeypatch):
     # path with no directory part (just filename) — os.path.dirname returns ''
     # which passes the directory check; file must not exist
-    os.chdir(tmp_path)
+    monkeypatch.chdir(tmp_path)
     resp = model.validate_output_file(FileValidationRequest('out.csv', 'output'))
     assert resp.valid is True
+
+
+def test_input_directory_path_is_rejected(model, tmp_path):
+    resp = model.validate_input_file(FileValidationRequest(str(tmp_path), 'input'))
+    assert resp.valid is False
+    assert 'not found' in resp.error.lower()
 
 
 # --- Stage 2 readiness / process ---
@@ -112,6 +119,15 @@ def test_check_readiness_requires_connection_and_paths(model):
     assert resp.ready is False
     assert any('data_glossary' in error for error in resp.errors)
     assert any('Connection name is required' in error for error in resp.errors)
+
+
+def test_check_readiness_succeeds_when_paths_and_connection_present(model):
+    resp = model.check_readiness(ReadinessRequest(
+        source_paths={'business_glossary': VALID_BG, 'data_glossary': VALID_DG},
+        connection='warehouse',
+    ))
+    assert resp.ready is True
+    assert resp.errors == []
 
 
 def test_process_success_returns_processed_data(model):
@@ -142,3 +158,65 @@ def test_process_returns_schema_errors(model, tmp_path):
     assert resp.success is False
     assert resp.data is None
     assert any('Missing required columns from Business Glossary' in error for error in resp.errors)
+
+
+def test_process_returns_read_error_when_source_csv_cannot_be_decoded(model, tmp_path):
+    bad_bg = tmp_path / 'bad_business.csv'
+    bad_bg.write_bytes(b'\xff\xfe\x00')
+
+    req = ProcessRequest(
+        source_paths={'business_glossary': str(bad_bg), 'data_glossary': VALID_DG},
+        source_adapter=StatisticsEstoniaAdapter(),
+        target_adapter=SelectZeroAdapter(),
+    )
+
+    resp = model.process(req)
+
+    assert resp.success is False
+    assert any("Cannot read 'business_glossary'" in error for error in resp.errors)
+
+
+def test_process_returns_processing_error_when_adapter_raises(model):
+    class ExplodingAdapter:
+
+        def validate_schema(self, req):
+            return type('SchemaResp', (), {'valid': True, 'errors': []})()
+
+        def process_sources(self, source_dfs):
+            raise RuntimeError('boom')
+
+    req = ProcessRequest(
+        source_paths={'business_glossary': VALID_BG, 'data_glossary': VALID_DG},
+        source_adapter=ExplodingAdapter(),
+        target_adapter=SelectZeroAdapter(),
+    )
+
+    resp = model.process(req)
+
+    assert resp.success is False
+    assert resp.data is None
+    assert resp.errors == ['Processing error: boom']
+
+
+def test_process_supports_semicolon_delimited_temp_files(model, tmp_path):
+    bg_path = tmp_path / 'bg.csv'
+    dg_path = tmp_path / 'dg.csv'
+    bg_path.write_text(
+        'MÕISTE_ET;SEOSE TÜÜP;SEOTUD MÕISTE;MÄÄRATLUS VÕI SELGITUS_ET\nAlpha;SEOTUD;Beta;Desc\n',
+        encoding='utf-8',
+    )
+    dg_path.write_text(
+        'ÄRISÕNASTIKU TERMIN;ANDMESÕNASTIKU TERMIN;Tabeli nimi;Välja nimi;Kommentaarid;KOOSTAMISE MÄRKUSED\nAlpha;Term A;tbl;col;Comment;Note\n',
+        encoding='utf-8',
+    )
+
+    req = ProcessRequest(
+        source_paths={'business_glossary': str(bg_path), 'data_glossary': str(dg_path)},
+        source_adapter=StatisticsEstoniaAdapter(),
+        target_adapter=SelectZeroAdapter(),
+    )
+
+    resp = model.process(req)
+
+    assert resp.success is True
+    assert 'term a' in resp.data.df_term['name'].tolist()

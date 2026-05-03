@@ -28,7 +28,8 @@ hobby_projects/
 │   ├── settings_window.py                   # Window 2: adapter configuration + trigger translation
 │   ├── preview_window.py                    # Window 3: results tables, accept / reject
 │   └── output_selection_window.py           # Window 4: output file paths + write
-├── test_model.py                            # pytest unit tests
+├── tests/
+│   └── test_model.py                        # pytest unit tests
 ├── test_business_glossary.csv               # Sample business glossary input (ärisõnastik)
 ├── test_data_glossary.csv                   # Sample data glossary input (andmesõnastik)
 └── test archive/

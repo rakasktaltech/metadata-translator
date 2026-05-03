@@ -73,6 +73,44 @@ def test_translator_prefix(test_vanilla_translator):
     transl.business_term_prefix = "123_"
     transl.resolve_business_glossary()
     transl.resolve_data_glossary()
-    assert transl.df_term.iloc[4].tolist() == ['123_allkirjastamisõigus', 'red', 'seaduslik või volitatud esindamine', 'Concept', '', 'Kamm Kala']
-    assert transl.df_term.iloc[13].tolist() == ['321_kasutajakonto loomise kuupäev', 'red', 'loomise kuupäev // tehniline tunnus', 'Term', '', 'Kamm Kala' ]
+    concept_row = transl.df_term.loc[transl.df_term['name'] == '123_allkirjastamisõigus'].iloc[0]
+    data_row = transl.df_term.loc[transl.df_term['name'] == '321_kasutajakonto loomise kuupäev'].iloc[0]
+
+    assert concept_row.tolist() == ['123_allkirjastamisõigus', '', 'seaduslik või volitatud esindamine', 'Concept', '', 'Kamm Kala']
+    assert data_row.tolist() == ['321_kasutajakonto loomise kuupäev', '', 'loomise kuupäev // tehniline tunnus', 'Term', '', 'Kamm Kala']
+
+
+def test_validate_reports_both_business_and_data_glossary_problems():
+    bg_df = pd.DataFrame(columns=['MÕISTE_ET'])
+    dg_df = pd.DataFrame(columns=['ÄRISÕNASTIKU TERMIN'])
+
+    message = validate(bg_df, dg_df)
+
+    assert "Missing required columns from business glossary" in message
+    assert "Missing required columns from data glossary" in message
+
+
+def test_is_unused_matches_case_insensitively():
+    assert translator.is_unused('See väli EI OLE KASUTUSES praegu') is not None
+
+
+def test_is_technical_field_matches_case_insensitively():
+    assert translator.is_technical_field('märkus: Tehniline Tunnus süsteemi jaoks') is not None
+
+
+def test_is_ready_for_translation_fails_for_duplicate_paths(test_vanilla_translator):
+    transl = test_vanilla_translator
+    transl.term_output_file = transl.business_glossary
+
+    assert transl.is_ready_for_translation() is False
+
+
+def test_get_term_name_appends_numeric_suffix_for_duplicates(test_vanilla_translator):
+    transl = test_vanilla_translator
+
+    first = transl.get_term_name('dupe term')
+    second = transl.get_term_name('dupe term')
+
+    assert first == 'dupe term'
+    assert second == 'dupe term_2'
 

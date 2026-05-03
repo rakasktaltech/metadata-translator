@@ -149,3 +149,130 @@ def test_process_sources_deduplicates_business_terms_and_keeps_relations(sa):
         'relation': 'Related to',
         'targetName': 'beta',
     }]
+
+
+def test_process_sources_duplicate_option_one_blanks_later_duplicate_names(sa):
+    sa.set_config(ConfigSetRequest('data_term_duplicate', 1))
+    df_bg = pd.DataFrame(columns=['MÕISTE_ET', 'SEOSE TÜÜP', 'SEOTUD MÕISTE', 'MÄÄRATLUS VÕI SELGITUS_ET'])
+    df_dg = pd.DataFrame([
+        {
+            'ÄRISÕNASTIKU TERMIN': pd.NA,
+            'ANDMESÕNASTIKU TERMIN': 'Dupe',
+            'Tabeli nimi': 'tbl',
+            'Välja nimi': 'col1',
+            'Kommentaarid': 'c1',
+            'KOOSTAMISE MÄRKUSED': 'n1',
+        },
+        {
+            'ÄRISÕNASTIKU TERMIN': pd.NA,
+            'ANDMESÕNASTIKU TERMIN': 'Dupe',
+            'Tabeli nimi': 'tbl',
+            'Välja nimi': 'col2',
+            'Kommentaarid': 'c2',
+            'KOOSTAMISE MÄRKUSED': 'n2',
+        },
+    ])
+
+    data = sa.process_sources({'business_glossary': df_bg, 'data_glossary': df_dg})
+
+    assert data.df_term['name'].tolist() == ['dupe', '']
+
+
+def test_process_sources_duplicate_option_four_skips_later_duplicate_rows(sa):
+    sa.set_config(ConfigSetRequest('data_term_duplicate', 4))
+    df_bg = pd.DataFrame(columns=['MÕISTE_ET', 'SEOSE TÜÜP', 'SEOTUD MÕISTE', 'MÄÄRATLUS VÕI SELGITUS_ET'])
+    df_dg = pd.DataFrame([
+        {
+            'ÄRISÕNASTIKU TERMIN': pd.NA,
+            'ANDMESÕNASTIKU TERMIN': 'Dupe',
+            'Tabeli nimi': 'tbl',
+            'Välja nimi': 'col1',
+            'Kommentaarid': 'c1',
+            'KOOSTAMISE MÄRKUSED': 'n1',
+        },
+        {
+            'ÄRISÕNASTIKU TERMIN': pd.NA,
+            'ANDMESÕNASTIKU TERMIN': 'Dupe',
+            'Tabeli nimi': 'tbl',
+            'Välja nimi': 'col2',
+            'Kommentaarid': 'c2',
+            'KOOSTAMISE MÄRKUSED': 'n2',
+        },
+    ])
+
+    data = sa.process_sources({'business_glossary': df_bg, 'data_glossary': df_dg})
+
+    assert data.df_term['name'].tolist() == ['dupe']
+    assert data.df_col_term_rel['column'].tolist() == ['col1']
+
+
+def test_process_sources_description_option_one_uses_database_commentary(sa):
+    sa.set_config(ConfigSetRequest('data_term_description', 1))
+    df_bg = pd.DataFrame(columns=['MÕISTE_ET', 'SEOSE TÜÜP', 'SEOTUD MÕISTE', 'MÄÄRATLUS VÕI SELGITUS_ET'])
+    df_dg = pd.DataFrame([
+        {
+            'ÄRISÕNASTIKU TERMIN': pd.NA,
+            'ANDMESÕNASTIKU TERMIN': 'Term',
+            'Tabeli nimi': 'tbl',
+            'Välja nimi': 'col',
+            'Kommentaarid': 'database comment',
+            'KOOSTAMISE MÄRKUSED': 'author note',
+        },
+    ])
+
+    data = sa.process_sources({'business_glossary': df_bg, 'data_glossary': df_dg})
+
+    assert data.df_term.iloc[0]['description'] == 'database comment'
+
+
+def test_process_sources_technical_option_two_filters_technical_and_unused(sa):
+    sa.set_config(ConfigSetRequest('technical_fields', 2))
+    df_bg = pd.DataFrame(columns=['MÕISTE_ET', 'SEOSE TÜÜP', 'SEOTUD MÕISTE', 'MÄÄRATLUS VÕI SELGITUS_ET'])
+    df_dg = pd.DataFrame([
+        {
+            'ÄRISÕNASTIKU TERMIN': pd.NA,
+            'ANDMESÕNASTIKU TERMIN': 'Tech Term',
+            'Tabeli nimi': 'tbl',
+            'Välja nimi': 'col1',
+            'Kommentaarid': 'database comment',
+            'KOOSTAMISE MÄRKUSED': 'tehniline tunnus',
+        },
+        {
+            'ÄRISÕNASTIKU TERMIN': pd.NA,
+            'ANDMESÕNASTIKU TERMIN': 'Unused Term',
+            'Tabeli nimi': 'tbl',
+            'Välja nimi': 'col2',
+            'Kommentaarid': 'database comment',
+            'KOOSTAMISE MÄRKUSED': 'ei ole kasutuses',
+        },
+        {
+            'ÄRISÕNASTIKU TERMIN': pd.NA,
+            'ANDMESÕNASTIKU TERMIN': 'Keep Term',
+            'Tabeli nimi': 'tbl',
+            'Välja nimi': 'col3',
+            'Kommentaarid': 'database comment',
+            'KOOSTAMISE MÄRKUSED': 'regular note',
+        },
+    ])
+
+    data = sa.process_sources({'business_glossary': df_bg, 'data_glossary': df_dg})
+
+    assert data.df_term['name'].tolist() == ['keep term']
+    assert data.df_col_term_rel['column'].tolist() == ['col3']
+
+
+def test_process_sources_skips_unknown_business_relation_types(sa):
+    df_bg = pd.DataFrame([
+        {
+            'MÕISTE_ET': 'Alpha',
+            'SEOSE TÜÜP': 'UNKNOWN',
+            'SEOTUD MÕISTE': 'Beta',
+            'MÄÄRATLUS VÕI SELGITUS_ET': 'description',
+        },
+    ])
+    df_dg = pd.DataFrame(columns=['ÄRISÕNASTIKU TERMIN', 'ANDMESÕNASTIKU TERMIN',
+                                  'Tabeli nimi', 'Välja nimi', 'Kommentaarid', 'KOOSTAMISE MÄRKUSED'])
+
+    data = sa.process_sources({'business_glossary': df_bg, 'data_glossary': df_dg})
+
+    assert data.df_term_rel.empty

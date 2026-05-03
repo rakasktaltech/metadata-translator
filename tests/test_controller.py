@@ -13,7 +13,7 @@ from messages import ConfigSetRequest
 from gui.preview_window import PreviewWindow
 
 
-WORKSPACE = os.path.dirname(os.path.abspath(__file__))
+WORKSPACE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VALID_BG = os.path.join(WORKSPACE, 'test_business_glossary.csv')
 VALID_DG = os.path.join(WORKSPACE, 'test_data_glossary.csv')
 
