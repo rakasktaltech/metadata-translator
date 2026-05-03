@@ -98,4 +98,4 @@ class SelectZeroAdapter(BaseSourceAdapter, BaseTargetAdapter):
 
         for file_key, path in target_paths.items():
             dataframe = frame_by_key[file_key].reindex(columns=self.output_columns(file_key)).fillna("")
-            dataframe.to_csv(path, index=False, sep=';', encoding='utf-8')
+            dataframe.to_csv(path, index=False, sep=';', encoding='utf-8-sig')

@@ -1,0 +1,14 @@
+﻿connection;schema;object;column;term
+asdf;public;accounts;id;kirje unikaalne identifikaator
+asdf;public;accounts;account_type;konto omaniku kontotüüp
+asdf;public;accounts;is_deleted;taotleja konto kustutamise märge
+asdf;public;nan;created;kasutajakonto loomise kuupäev
+asdf;public;accounts;nan;kasutajakonto loomise kuupäev_2
+asdf;public;accounts;created;kasutajakonto loomise kuupäev_3
+asdf;public;accounts;created;kasutajakonto loomise kuupäev_4
+asdf;public;accounts;created;kasutajakonto loomise kuupäev_5
+asdf;public;accounts;modified;kasutajakonto muutmise kuupäev
+asdf;public;accounts;legent_id;seos legent.id (seos jur isikuga)
+asdf;public;accounts;is_signer;kasutajakonto allkirjastamise õigus
+asdf;public;accounts;is_applicant;kasutajakonto taotluse esitamise õigus
+asdf;public;applications;id;kirje unikaalne identifikaator_2

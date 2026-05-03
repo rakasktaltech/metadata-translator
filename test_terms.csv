@@ -1,0 +1,25 @@
+﻿name;color;description;type;domain;owner
+kirje unikaalne identifikaator;asdf;primery key // tehniline tunnus;Term;;asdf
+konto omaniku kontotüüp;asdf;kontotüüp: 1 - eraisik, 2 - juriidiline isik, 3 -Riigi- või avaliku sektori asutus, 4 - Välismaa juriidiline isik;Term;;asdf
+taotleja konto kustutamise märge;asdf;kustutatud: 1 - jah, 0 - ei // ei ole kasutuses;Term;;asdf
+kasutajakonto loomise kuupäev;asdf;loomise kuupäev // tehniline tunnus;Term;;asdf
+kasutajakonto loomise kuupäev_2;asdf;loomise kuupäev // tehniline tunnus;Term;;asdf
+kasutajakonto loomise kuupäev_3;asdf;tehniline tunnus;Term;;asdf
+kasutajakonto loomise kuupäev_4;asdf;loomise kuupäev // tehniline tunnus;Term;;asdf
+kasutajakonto loomise kuupäev_5;asdf;loomise kuupäev // tehniline tunnus;Term;;asdf
+kasutajakonto muutmise kuupäev;asdf;muutmise kuupäev // tehniline tunnus;Term;;asdf
+seos legent.id (seos jur isikuga);asdf;seos legent.id // tehniline tunnus: ei ole kasutuses;Term;;asdf
+kasutajakonto allkirjastamise õigus;asdf;allkirjastaja: 1 - jah, 0 - ei;Term;;asdf
+kasutajakonto taotluse esitamise õigus;asdf;taotleja: 1 - jah, 0 - ei;Term;;asdf
+kirje unikaalne identifikaator_2;asdf;primery key // tehniline tunnus;Term;;asdf
+aadressiandmed;asdf;;Concept;;asdf
+administraator;asdf;;Concept;;asdf
+akordionvalik;asdf;valikugruppide haldamise süsteem;Concept;;asdf
+allkirjastaja;asdf;allkirja (sh digiallkirja) andmine isiku poolt, kellel on esindamisõigus;Concept;;asdf
+allkirjastamisõigus;asdf;seaduslik või volitatud esindamine;Concept;;asdf
+aruanne;asdf;eralduse saaja on kohustatud esitama aruande projekti-, tegevustoetuse ning loometöötasu eesmärgi teostumise – tegelikult saadud tulude ja tehtud kulutuste kohta 60 kalendripäeva jooksul peale projekti teostumist või tegevustoetust saanud perioodi lõppemist. Kultuurkapitali juhatajal on õigus omal algatusel või eralduse saaja avalduse alusel aruande esitamise tähtaega mõjuvatel põhjustel muuta, lähtudes haldusmenetluse seaduses sätestatust. Mitteresidendist eralduse saaja ei ole kohustatud esitama aruannet, kui ekspertkomisjoni otsusega makstakse eraldus välja peale eesmärgi täitumist.;Concept;;asdf
+asutus;asdf;halduslikke, kultuurilisi, hariduslikke vm ülesandeid täitev iseseisev, ainelise tootmisega mitte tegelev organ, institutsioon.;Concept;;asdf
+ekspert;asdf;valdkonna asjatundja eriteadmisi nõudvate otsuste tegemiseks;Concept;;asdf
+eralduse tagasimaksmine;asdf;"eralduse saajal on kohustus tagastada eraldus 10 tööpäeva jooksul alates Kultuurkapitalilt kirjaliku tagasinõude otsuse saamisest. Tagasimaksmisele kuuluva eralduse, mis on suurem kui 50 eurot, võib ajatada eralduse saaja põhjendatud avalduse alusel kuni 12 kuuks, kui korraga maksmine seab eralduse saaja olulisel määral makseraskustesse või esinevad muud kaalukad asjaolud. Kui eralduse saaja ei maksa ajatamiskava kohaselt eraldust tagasi, jääb eralduse saaja Kultuurkapitali ees võlglaseks. 
+";Concept;;asdf
+eraldusotsus;asdf;taotlus rahuldatakse sisulise hindamise alusel kas täielikult või osaliselt või jäetakse taotlus rahuldamata (edaspidi ühiselt nimetatud eraldusotsus). Eraldusotsuste tegemisel lähtutakse laekunud taotluste analüüsist ning jagamisele kinnitatud rahalistest vahenditest. Kui raha jagamise korras on sätestatud eralduste kindel arv või suurus, lähtutakse otsuse tegemisel vastavatest tingimustest.;Concept;;asdf
